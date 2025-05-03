@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName="sap.maco.apps.groovylist01.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    height="100%"
+    xmlns="sap.f"
+>
+    <FlexibleColumnLayout
+        id="fcl"
+        backgroundDesign="Solid"
+        layout="OneColumn"
+    />
+</mvc:View>

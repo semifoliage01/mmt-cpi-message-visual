@@ -1,4 +1,30 @@
-# mmt-cpi-message-visual
-mmt-cpi-message-visualization version 01
+npm install
+npm run start
 
-fetch iflow logs 
+# UI5 App Playground
+
+Insert the purpose of this project and some interesting infos here
+
+## Credits
+
+This project has been generated with 💙 and [Easy-UI5](https://github.com/SAP/generator-easy-ui5)
+
+## Others
+
+`https://sap.github.io/fundamental-styles/?path=/docs/docs-introduction--docs`
+
+```html
+<li>
+    <label>GROUP_LABEL</label>
+    <ol>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#SEMANTIC_ACTION" class="myLinks">APP_TITLE</a></li>
+    </ol>
+</li>
+```

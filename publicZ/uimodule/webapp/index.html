@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js API Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calling Node.js Methods from HTML</h1>
+    
+    <div>
+        <h2>GET Request Example</h2>
+        <input type="text" id="messageInput" placeholder="Enter correlation ID">
+        <button onclick="getData()">Get Data from Server</button>
+        <div id="getResult" class="result"></div>
+    </div>
+
+    <div>
+        <h2>POST Request Example</h2>
+        <input type="text" id="messageInput" placeholder="Enter a message">
+        <button onclick="sendData()">Send Data to Server</button>
+        <div id="postResult" class="result"></div>
+    </div>
+
+    <script>
+        // Function to make GET request
+        async function getData() {
+            const resultDiv = document.getElementById('getResult');
+            try {
+                const correlationId = document.getElementById('messageInput').value;
+                if (!correlationId) {
+                    throw new Error('Please enter a correlation ID');
+                }
+                
+                console.log('Making request to:', `/api/getData?correlationId=${encodeURIComponent(correlationId)}`);
+                const response = await fetch(`/api/getData?correlationId=${encodeURIComponent(correlationId)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.classList.remove('error');
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.classList.add('error');
+            }
+        }
+
+        // Function to make POST request
+        async function sendData() {
+            const resultDiv = document.getElementById('postResult');
+            try {
+                const message = document.getElementById('messageInput').value;
+                const response = await fetch('/api/processData', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.classList.remove('error');
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.classList.add('error');
+            }
+        }
+    </script>
+</body>
+</html> 

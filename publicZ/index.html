@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MMT Tool</title>
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #607D8B;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --spacing: 1rem;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .g-menu {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .g-menu label {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .g-menu ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        .g-menu li {
+            margin: 10px 0;
+        }
+
+        .g-menu a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .g-menu a:hover {
+            background-color: #f0f0f0;
+            color: var(--primary-color);
+        }
+
+        .urlarea, .textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid">
+        <div class="g-menu">
+            <label for="message">CPI Message Tools</label>
+            <ol id="message">
+                <li><a href="/groovyList/index.html" class="myLinks">Groovy List</a></li>
+                <li><a href="/messageGraph/index.html" class="myLinks">Message Flow Graph</a></li>
+                <li><a href="/messageGantt/index.html" class="myLinks">Message Gantt</a></li>
+                <li><a href="/messageList/index.html" class="myLinks">Message List</a></li>
+                <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample</a></li>
+            </ol>
+        </div>
+        
+        <div class="g-main">
+
+            <div class="tool-section">
+              <h2>Fetch Iflow Logs</h2>
+              <div class="input-group">
+                  <select id="envId">
+                    <option value="dev">DEV</option>
+                    <option value="ci">CI</option>
+                    <option value="test">Test</option>
+                    <option value="test-hfc">Test-hfc(SKR)</option>
+                  </select>
+                  <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
+                  <button onclick="fetchIflow()">Fetch iflow</button>
+                  <div id="correlationIdFetched" ></div>
+                  <div id="getResult" class="result"></div>
+              </div>
+
+              <div class="input-group">
+                <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
+                <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
+                <button onclick="generateSample()">Fetch iflow</button>
+                <div id="getSaveSampleResult" class="result"></div>
+            </div>
+          </div>
+
+            <div class="tool-section">
+                <h2>Time Converter</h2>
+                <div class="input-group">
+                    <input type="number" id="in_ms" placeholder="Enter milliseconds" class="input-field" onkeypress="timeConvertMilliseconds(event)">
+                    <button onclick="parseDate()">Parse Date</button>
+                    <div id="out_ms" class="output-field"></div>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h2>Text Tools</h2>
+                <div class="text-tools">
+                    <textarea id="input" class="textarea" placeholder="Enter text here..." oninput="persistInSessionStorage(event)"></textarea>
+                    <div class="button-group">
+                        <button onclick="base64Encode()">Base64 Encode</button>
+                        <button onclick="base64Decode()">Base64 Decode</button>
+                        <button onclick="jsonPretty()">Format JSON</button>
+                        <button onclick="jsonMinify()">Minify JSON</button>
+                        <button onclick="clearTextAreaSessionStorage()">Clear</button>
+                    </div>
+                    <textarea id="output" class="textarea" placeholder="Output will appear here..." readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function generateInterchangeIdV1() {
+            let prefix = document.getElementById("prefix").value;
+            let interchangeId = prefix + String(new Date().getTime()).substring(0, 10);
+            let out = document.getElementById("interchangeIdPrefixOut");
+            out.innerText = interchangeId;
+        }
+
+        function generateInterchangeIdV2() {
+            let prefix = document.getElementById("prefix").value;
+            const now = new Date();
+            let day = String(now.getDate()).padStart(2, "0");
+            let month = String(now.getMonth() + 1).padStart(2, "0"); //months from 1-12
+            let year = String(now.getFullYear()).substring(2);
+            let seq = String(now.getTime()).substring(6, 10);
+            let interchangeId = `${prefix}${year}${month}${day}${seq}`;
+            let out = document.getElementById("interchangeIdPrefixOut");
+            out.innerText = interchangeId;
+        }
+
+        function explainInterchangeId() {
+            let interchangeId = document.getElementById("interchangeId").value;
+            const regexp1 = /[A-Z]{2}\d{10}/;
+            const regexp2 = /\d{10}/;
+            let ms;
+            if (interchangeId.match(regexp1)) {
+                ms = Number(`${interchangeId.substring(2)}000`);
+            } else if (interchangeId.match(regexp2)) {
+                ms = Number(`${interchangeId}000`);
+            }
+            let d = new Date(ms);
+            let text = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+            let out = document.getElementById("interchangeIdToTimeOut");
+            out.innerText = text;
+        }
+
+        function goToCpiDev() {
+            let interchangeId = document.getElementById("interchangeId").value;
+            let host = "cpi-mmt-dev.it-cpi018.cfapps.eu10-003.hana.ondemand.com";
+            let url = `https://${host}/itspaces/shell/monitoring/Messages/%7B%22identifier%22%3A%22${interchangeId}%22%7D`;
+            window.open(url, "_blank");
+        }
+
+        function timeConvertMilliseconds(e) {
+            if (e.key === "Enter") {
+                let val_ms = document.getElementById("in_ms").value;
+                let i_sec = Number(val_ms) / 1000;
+                let i_min = i_sec / 60;
+                let i_hour = i_min / 60;
+                let out = document.getElementById("out_ms");
+                out.innerText = i_sec.toFixed(2) + " sec, " + i_min.toFixed(2) + " min, " + i_hour.toFixed(2) + " hour";
+            }
+        }
+
+        function timeConvertSeconds() {
+            let val_sec = document.getElementById("in_sec").value;
+            let i_sec = Number(val_sec);
+            let i_min = i_sec / 60;
+            let i_hour = i_min / 60;
+            let out = document.getElementById("out_sec");
+            out.innerText = i_sec.toFixed(2) + " sec, " + i_min.toFixed(2) + " min, " + i_hour.toFixed(2) + " hour";
+        }
+
+        function timeConvertMinutes() {
+            let val_min = document.getElementById("in_min").value;
+            let i_min = Number(val_min);
+            let i_hour = i_min / 60;
+            let out = document.getElementById("out_min");
+            out.innerText = i_min.toFixed(2) + " min, " + i_hour.toFixed(2) + " hour";
+        }
+
+        function newDate() {
+            let out = document.getElementById("out_ms");
+            out.innerText = new Date().getTime() + "";
+        }
+
+        function parseDate() {
+            let val_ms = Number(document.getElementById("in_ms").value);
+            let out = document.getElementById("out_ms");
+            let date = new Date(val_ms);
+            out.innerText = date.toUTCString() + " / " + date.toLocaleString();
+        }
+
+        async function fetchIflow() {
+            const resultDiv = document.getElementById('getResult');
+            const fetchCorrelationIdele =  document.getElementById('correlationIdFetched');
+            try {
+                const correlationId = document.getElementById('correlationId').value;
+                fetchCorrelationIdele.textContent = "Fetched CorrelationId : " + correlationId;
+                if (!correlationId) {
+                    throw new Error('Please enter a correlation ID');
+                }
+
+                const envId = document.getElementById('envId').value;
+                if (!envId) {
+                    throw new Error('Please select an Environment');
+                }
+                
+                console.log('Making request to:', `/api/getData?correlationId=${encodeURIComponent(correlationId)}&envId=${encodeURIComponent(envId)}`);
+                const response = await fetch(`/api/getData?correlationId=${encodeURIComponent(correlationId)}&envId=${encodeURIComponent(envId)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.classList.remove('error');
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.classList.add('error');
+            }
+            
+        }
+
+        async function generateSample() {
+            const sampleId =  document.getElementById('sampleId').value;
+            const sampleName = document.getElementById('sampleName').value;
+            const resultEv = document.getElementById('getSaveSampleResult').value;
+            const fetchedCorrelationId = document.getElementById('correlationIdFetched').value;
+            try {
+                // if (!fetchedCorrelationId) {
+                //     throw new Error('Please fetch a correlationid firstly');    ---> to be added back
+                // }
+
+                const envId = document.getElementById('envId').value;
+                if (!envId) {
+                    throw new Error('Please select an Environment');
+                }
+
+                if(!sampleName) {
+                    throw new Error('Please input sampleName');
+                }
+
+                if(!sampleId) {
+                    throw new Error('Please input sampleId');
+                }
+                
+                console.log('Making request to:', `/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
+                const response = await fetch(`/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                resultEv.textContent = JSON.stringify(data, null, 2);
+                resultEv.classList.remove('error');
+            } catch (error) {
+                console.error('Error:', error);
+                resultEv.textContent = 'Error: ' + error.message;
+                resultEv.classList.add('error');
+            }
+            
+        }
+
+        function urlDecode() {
+            let urlInput = document.getElementById("urlInput").value;
+            let decodedUrl = decodeURIComponent(urlInput);
+            let out = document.getElementById("urlOut");
+            out.value = decodedUrl;
+        }
+
+        function base64Decode() {
+            let input = document.getElementById("input").value;
+            let result = atob(input);
+            console.log(result);
+            let out = document.getElementById("output");
+            out.value = result;
+        }
+
+        function base64Encode() {
+            let input = document.getElementById("input").value;
+            let result = btoa(input);
+            console.log(result);
+            let out = document.getElementById("output");
+            out.value = result;
+        }
+
+        function jsonPretty() {
+            let input = document.getElementById("input").value;
+            let result = JSON.stringify(JSON.parse(input), null, 2);
+            console.log(result);
+            let out = document.getElementById("output");
+            out.value = result;
+        }
+
+        function jsonMinify() {
+            let input = document.getElementById("input").value;
+            let result = JSON.stringify(JSON.parse(input));
+            console.log(result);
+            let out = document.getElementById("output");
+            out.value = result;
+        }
+
+        function initInSessionStorage(e) {
+            let inputTextArea = sessionStorage.getItem('inputTextArea');
+            if (inputTextArea.length > 0) {
+                document.getElementById("input").value = inputTextArea;
+            }
+        }
+
+        function persistInSessionStorage(e) {
+            console.log("e.target.value.length", e.target.value.length);
+            if (e.target.value.length > 0) {
+                sessionStorage.setItem('inputTextArea', e.target.value);
+            }
+        }
+
+        function clearTextAreaSessionStorage() {
+            let textarea = document.getElementById("input");
+            textarea.value = "";
+            sessionStorage.setItem('inputTextArea', "");
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let htmlCollection = document.getElementsByClassName("myLinks");
+            for (let element of htmlCollection) {
+                element.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    window.open(this.href, "_blank", "noopener");
+                });
+            }
+            let textarea = document.getElementById("input");
+            if (textarea) {
+                initInSessionStorage();
+            }
+        });
+    </script>
+</body>
+
+</html>

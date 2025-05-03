@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Link in New Tab</title>
+    <style>
+        .g-grid {
+            display: grid;
+        }
+
+        .g-dev {
+            grid-column: 1 / 2;
+            grid-row: 1 / 4;
+        }
+
+        .g-ci {
+            grid-column: 2 / 3;
+            grid-row: 1 / 4;
+        }
+
+        .g-test {
+            grid-column: 3 / 4;
+            grid-row: 1 / 4;
+        }
+
+        .g-hotfix {
+            grid-column: 4 / 5;
+            grid-row: 1 / 4;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let htmlCollection = document.getElementsByClassName("myLinks");
+            for (let element of htmlCollection) {
+                element.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    window.open(this.href, "_blank", "noopener");
+                });
+            }
+        });
+    </script>
+    <data></data>
+</head>
+
+<body>
+    <div class="g-grid">
+        <div class="g-dev">
+            <label for="mmt-dev">CF</label>
+            <a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#Shell-home" class="myLinks">MMT
+                Dev</a>
+            <ol id="mmt-dev">
+                <li>
+                    <label for="mon-and-ops">Monitoring and Operations</label>
+                    <ol id="mon-and-ops">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#monmessages-display"
+                                class="myLinks">Monitor Messages</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#monexceptions-Display"
+                                class="myLinks">Monitor Exceptions</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#inboundemailrefs-Display"
+                                class="myLinks">Monitor Inbound Emails</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#intmsgref-Display"
+                                class="myLinks">Monitor Internal Messages</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#svmonitor-Manage"
+                                class="myLinks">Monitor Semantic Validations</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#downtimeWindow-Manage"
+                                class="myLinks">Maintain Downtime Windows</a></li>
+                    </ol>
+                </li>
+                <li><label for="cust-and-part">Customers And Partners</label>
+                    <a id="cust-and-part"
+                        href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcustomers-displayy"
+                        class="myLinks">Manage Customers</a>
+                </li>
+                <li>
+                    <label for="msg-conv-and-val-conf">Message Conversion and Validation Configurations</label>
+                    <ol id="msg-conv-and-val-conf">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlfiles-display"
+                                class="myLinks">Manage Conversion and Validation Files of Message</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlvalidity-display"
+                                class="myLinks">Manage Conversion and Validation Rules of Message</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbmainchecks-display"
+                                class="myLinks">AHB Dependency Configuration</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#nodekeyconstrains-manage"
+                                class="myLinks">Display AHB Constraints</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#msgallowedsenderreceiver-display"
+                                class="myLinks">Allowed Roles of Message Sender and Receiver</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#obiscode-manage"
+                                class="myLinks">Manage OBIS Codes</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#articlenumbers-manage"
+                                class="myLinks">Manage Article Numbers</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#measurementproducts-manage"
+                                class="myLinks">Manage Measurement Product</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalidclass-manage"
+                                class="myLinks">Manage Legal Verions</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmsgsemanticvsn-display"
+                                class="myLinks">Manage Semantic Versions of Message</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalicontrol-Manage"
+                                class="myLinks">Manage Skipping Semantic Validation</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbdecisiontree-display"
+                                class="myLinks">Manage AHB Decision Tree</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="split-conf">Splitter Configuration</label>
+                    <ol id="split-conf">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#scenario-Identify"
+                                class="myLinks">Splitter Scenario Identification</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#routingparameters-Manage"
+                                class="myLinks">Splitter Routing Parameters</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerIntIds-Manage"
+                                class="myLinks">Splitter Internal Partners</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#deaggregationRule-Manage"
+                                class="myLinks">Manage Deaggregation Settings</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#retrySettings-Manage"
+                                class="myLinks">Retry Settings</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="excp-conf">Exception Configuration</label>
+                    <ol id="excp-conf">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgrescodes-display"
+                                class="myLinks">Configure Solution Codes</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgexpcodes-display"
+                                class="myLinks">Configure Exception Codes</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgcommissuesetting-Manage"
+                                class="myLinks">Communication Issue Settings</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmailpatternactions-Manage"
+                                class="myLinks">Manage Email Subject Patterns and Actions</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="sys-set-and-comm-conf">Systems Settings and Common Configurations</label>
+                    <ol id="sys-set-and-comm-conf">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#genericpartnerdirectories-manage"
+                                class="myLinks">Manage Direct Editable Partner Directories</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#msgstopcontrol-Manage"
+                                class="myLinks">Manage Message Processing Stop Control</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgcloudapiconns-Manage"
+                                class="myLinks">Manage Cloud Communication Scenarios</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mgriflowversions-Manage"
+                                class="myLinks">Manage IFlow Versions</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#commsystems-Manage"
+                                class="myLinks">Manage Communication Systems</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#commscenarioids-Manage"
+                                class="myLinks">Manage Communication Scenarioids</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerdirectories-Manage"
+                                class="myLinks">Manage Partner Directories</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#communicationusers-manage"
+                                class="myLinks">Manage Communication Users</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#authmaterials-manage"
+                                class="myLinks">Manage Authentication Materials</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#mktsystemdetermination-Manage"
+                                class="myLinks">Manage Market Process System Determination</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="mmt-dev-logs">Logs</label>
+                    <ol id="mmt-dev-logs">
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#changehistory-Display"
+                                class="myLinks">Show Change Histories</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#cpipartnerdictory-display"
+                                class="myLinks">Monitor CPI Partner Directories</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#pdsyncerrors-manage"
+                                class="myLinks">Monitor Customer Partner Directory Synchronization
+                                Status</a></li>
+                        <li><a href="https://maco-stage-dev.cfapps.sap.hana.ondemand.com/cp.portal/site#masterdatasync-display"
+                                class="myLinks">Monitor Data Synchronization Transactions</a></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        <div class="g-ci">
+            <div class="g-ci">
+                <label for="mmt-ci">CF</label>
+                <a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#Shell-home"
+                    class="myLinks">MMT CI</a>
+                <ol id="mmt-ci">
+                    <li>
+                        <label for="mon-and-ops">Monitoring and Operations</label>
+                        <ol id="mon-and-ops">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#monmessages-display"
+                                    class="myLinks">Monitor Messages</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#monexceptions-Display"
+                                    class="myLinks">Monitor Exceptions</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#inboundemailrefs-Display"
+                                    class="myLinks">Monitor Inbound Emails</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#intmsgref-Display"
+                                    class="myLinks">Monitor Internal Messages</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#svmonitor-Manage"
+                                    class="myLinks">Monitor Semantic Validations</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#downtimeWindow-Manage"
+                                    class="myLinks">Maintain Downtime Windows</a></li>
+                        </ol>
+                    </li>
+                    <li><label for="cust-and-part">Customers And Partners</label>
+                        <a id="cust-and-part"
+                            href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcustomers-displayy"
+                            class="myLinks">Manage Customers</a>
+                    </li>
+                    <li>
+                        <label for="msg-conv-and-val-conf">Message Conversion and Validation Configurations</label>
+                        <ol id="msg-conv-and-val-conf">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlfiles-display"
+                                    class="myLinks">Manage Conversion and Validation Files of Message</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlvalidity-display"
+                                    class="myLinks">Manage Conversion and Validation Rules of Message</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbmainchecks-display"
+                                    class="myLinks">AHB Dependency Configuration</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#nodekeyconstrains-manage"
+                                    class="myLinks">Display AHB Constraints</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#msgallowedsenderreceiver-display"
+                                    class="myLinks">Allowed Roles of Message Sender and Receiver</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#obiscode-manage"
+                                    class="myLinks">Manage OBIS Codes</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#articlenumbers-manage"
+                                    class="myLinks">Manage Article Numbers</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#measurementproducts-manage"
+                                    class="myLinks">Manage Measurement Product</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalidclass-manage"
+                                    class="myLinks">Manage Legal Verions</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmsgsemanticvsn-display"
+                                    class="myLinks">Manage Semantic Versions of Message</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalicontrol-Manage"
+                                    class="myLinks">Manage Skipping Semantic Validation</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbdecisiontree-display"
+                                    class="myLinks">Manage AHB Decision Tree</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="split-conf">Splitter Configuration</label>
+                        <ol id="split-conf">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#scenario-Identify"
+                                    class="myLinks">Splitter Scenario Identification</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#routingparameters-Manage"
+                                    class="myLinks">Splitter Routing Parameters</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerIntIds-Manage"
+                                    class="myLinks">Splitter Internal Partners</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#deaggregationRule-Manage"
+                                    class="myLinks">Manage Deaggregation Settings</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#retrySettings-Manage"
+                                    class="myLinks">Retry Settings</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="excp-conf">Exception Configuration</label>
+                        <ol id="excp-conf">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgrescodes-display"
+                                    class="myLinks">Configure Solution Codes</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgexpcodes-display"
+                                    class="myLinks">Configure Exception Codes</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgcommissuesetting-Manage"
+                                    class="myLinks">Communication Issue Settings</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmailpatternactions-Manage"
+                                    class="myLinks">Manage Email Subject Patterns and Actions</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="sys-set-and-comm-conf">Systems Settings and Common Configurations</label>
+                        <ol id="sys-set-and-comm-conf">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#genericpartnerdirectories-manage"
+                                    class="myLinks">Manage Direct Editable Partner Directories</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#msgstopcontrol-Manage"
+                                    class="myLinks">Manage Message Processing Stop Control</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgcloudapiconns-Manage"
+                                    class="myLinks">Manage Cloud Communication Scenarios</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mgriflowversions-Manage"
+                                    class="myLinks">Manage IFlow Versions</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#commsystems-Manage"
+                                    class="myLinks">Manage Communication Systems</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#commscenarioids-Manage"
+                                    class="myLinks">Manage Communication Scenarioids</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerdirectories-Manage"
+                                    class="myLinks">Manage Partner Directories</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#communicationusers-manage"
+                                    class="myLinks">Manage Communication Users</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#authmaterials-manage"
+                                    class="myLinks">Manage Authentication Materials</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#mktsystemdetermination-Manage"
+                                    class="myLinks">Manage Market Process System Determination</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="logs">Logs</label>
+                        <ol id="logs">
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#changehistory-Display"
+                                    class="myLinks">Show Change Histories</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#cpipartnerdictory-display"
+                                    class="myLinks">Monitor CPI Partner Directories</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#pdsyncerrors-manage"
+                                    class="myLinks">Monitor Customer Partner Directory Synchronization
+                                    Status</a></li>
+                            <li><a href="https://maco-stage-ci.cfapps.sap.hana.ondemand.com/cp.portal/site#masterdatasync-display"
+                                    class="myLinks">Monitor Data Synchronization Transactions</a></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="g-test">
+            <label for="mmt-test">CF</label>
+            <a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#Shell-home" class="myLinks">MMT
+                Test</a>
+            <ol id="mmt-test">
+                <li>
+                    <label for="mon-and-ops">Monitoring and Operations</label>
+                    <ol id="mon-and-ops">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#monmessages-display"
+                                class="myLinks">Monitor Messages</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#monexceptions-Display"
+                                class="myLinks">Monitor Exceptions</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#inboundemailrefs-Display"
+                                class="myLinks">Monitor Inbound Emails</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#intmsgref-Display"
+                                class="myLinks">Monitor Internal Messages</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#svmonitor-Manage"
+                                class="myLinks">Monitor Semantic Validations</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#downtimeWindow-Manage"
+                                class="myLinks">Maintain Downtime Windows</a></li>
+                    </ol>
+                </li>
+                <li><label for="cust-and-part">Customers And Partners</label>
+                    <a id="cust-and-part"
+                        href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcustomers-displayy"
+                        class="myLinks">Manage Customers</a>
+                </li>
+                <li>
+                    <label for="msg-conv-and-val-conf">Message Conversion and Validation Configurations</label>
+                    <ol id="msg-conv-and-val-conf">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlfiles-display"
+                                class="myLinks">Manage Conversion and Validation Files of Message</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlvalidity-display"
+                                class="myLinks">Manage Conversion and Validation Rules of Message</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbmainchecks-display"
+                                class="myLinks">AHB Dependency Configuration</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#nodekeyconstrains-manage"
+                                class="myLinks">Display AHB Constraints</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#msgallowedsenderreceiver-display"
+                                class="myLinks">Allowed Roles of Message Sender and Receiver</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#obiscode-manage"
+                                class="myLinks">Manage OBIS Codes</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#articlenumbers-manage"
+                                class="myLinks">Manage Article Numbers</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#measurementproducts-manage"
+                                class="myLinks">Manage Measurement Product</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalidclass-manage"
+                                class="myLinks">Manage Legal Verions</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmsgsemanticvsn-display"
+                                class="myLinks">Manage Semantic Versions of Message</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalicontrol-Manage"
+                                class="myLinks">Manage Skipping Semantic Validation</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbdecisiontree-display"
+                                class="myLinks">Manage AHB Decision Tree</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="split-conf">Splitter Configuration</label>
+                    <ol id="split-conf">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#scenario-Identify"
+                                class="myLinks">Splitter Scenario Identification</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#routingparameters-Manage"
+                                class="myLinks">Splitter Routing Parameters</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerIntIds-Manage"
+                                class="myLinks">Splitter Internal Partners</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#deaggregationRule-Manage"
+                                class="myLinks">Manage Deaggregation Settings</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#retrySettings-Manage"
+                                class="myLinks">Retry Settings</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="excp-conf">Exception Configuration</label>
+                    <ol id="excp-conf">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgrescodes-display"
+                                class="myLinks">Configure Solution Codes</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgexpcodes-display"
+                                class="myLinks">Configure Exception Codes</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgcommissuesetting-Manage"
+                                class="myLinks">Communication Issue Settings</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmailpatternactions-Manage"
+                                class="myLinks">Manage Email Subject Patterns and Actions</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="sys-set-and-comm-conf">Systems Settings and Common Configurations</label>
+                    <ol id="sys-set-and-comm-conf">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#genericpartnerdirectories-manage"
+                                class="myLinks">Manage Direct Editable Partner Directories</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#msgstopcontrol-Manage"
+                                class="myLinks">Manage Message Processing Stop Control</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgcloudapiconns-Manage"
+                                class="myLinks">Manage Cloud Communication Scenarios</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mgriflowversions-Manage"
+                                class="myLinks">Manage IFlow Versions</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#commsystems-Manage"
+                                class="myLinks">Manage Communication Systems</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#commscenarioids-Manage"
+                                class="myLinks">Manage Communication Scenarioids</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerdirectories-Manage"
+                                class="myLinks">Manage Partner Directories</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#communicationusers-manage"
+                                class="myLinks">Manage Communication Users</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#authmaterials-manage"
+                                class="myLinks">Manage Authentication Materials</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#mktsystemdetermination-Manage"
+                                class="myLinks">Manage Market Process System Determination</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <label for="logs">Logs</label>
+                    <ol id="logs">
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#changehistory-Display"
+                                class="myLinks">Show Change Histories</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#cpipartnerdictory-display"
+                                class="myLinks">Monitor CPI Partner Directories</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#pdsyncerrors-manage"
+                                class="myLinks">Monitor Customer Partner Directory Synchronization
+                                Status</a></li>
+                        <li><a href="https://maco-stage-test.cfapps.sap.hana.ondemand.com/cp.portal/site#masterdatasync-display"
+                                class="myLinks">Monitor Data Synchronization Transactions</a></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        <div class="g-hotfix">
+            <div class="g-hotfix">
+                <label for="mmt-hotfix">CF</label>
+                <a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#Shell-home"
+                    class="myLinks">MMT hotfix</a>
+                <ol id="mmt-hotfix">
+                    <li>
+                        <label for="mon-and-ops">Monitoring and Operations</label>
+                        <ol id="mon-and-ops">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#monmessages-display"
+                                    class="myLinks">Monitor Messages</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#monexceptions-Display"
+                                    class="myLinks">Monitor Exceptions</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#inboundemailrefs-Display"
+                                    class="myLinks">Monitor Inbound Emails</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#intmsgref-Display"
+                                    class="myLinks">Monitor Internal Messages</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#svmonitor-Manage"
+                                    class="myLinks">Monitor Semantic Validations</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#downtimeWindow-Manage"
+                                    class="myLinks">Maintain Downtime Windows</a></li>
+                        </ol>
+                    </li>
+                    <li><label for="cust-and-part">Customers And Partners</label>
+                        <a id="cust-and-part"
+                            href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcustomers-displayy"
+                            class="myLinks">Manage Customers</a>
+                    </li>
+                    <li>
+                        <label for="msg-conv-and-val-conf">Message Conversion and Validation Configurations</label>
+                        <ol id="msg-conv-and-val-conf">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlfiles-display"
+                                    class="myLinks">Manage Conversion and Validation Files of Message</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrcontrlvalidity-display"
+                                    class="myLinks">Manage Conversion and Validation Rules of Message</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbmainchecks-display"
+                                    class="myLinks">AHB Dependency Configuration</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#nodekeyconstrains-manage"
+                                    class="myLinks">Display AHB Constraints</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#msgallowedsenderreceiver-display"
+                                    class="myLinks">Allowed Roles of Message Sender and Receiver</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#obiscode-manage"
+                                    class="myLinks">Manage OBIS Codes</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#articlenumbers-manage"
+                                    class="myLinks">Manage Article Numbers</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#measurementproducts-manage"
+                                    class="myLinks">Manage Measurement Product</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalidclass-manage"
+                                    class="myLinks">Manage Legal Verions</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmsgsemanticvsn-display"
+                                    class="myLinks">Manage Semantic Versions of Message</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#semanticvalicontrol-Manage"
+                                    class="myLinks">Manage Skipping Semantic Validation</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#ahbdehotfixsiontree-display"
+                                    class="myLinks">Manage AHB Dehotfixsion Tree</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="split-conf">Splitter Configuration</label>
+                        <ol id="split-conf">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#scenario-Identify"
+                                    class="myLinks">Splitter Scenario Identification</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#routingparameters-Manage"
+                                    class="myLinks">Splitter Routing Parameters</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerIntIds-Manage"
+                                    class="myLinks">Splitter Internal Partners</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#deaggregationRule-Manage"
+                                    class="myLinks">Manage Deaggregation Settings</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#retrySettings-Manage"
+                                    class="myLinks">Retry Settings</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="excp-conf">Exception Configuration</label>
+                        <ol id="excp-conf">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgrescodes-display"
+                                    class="myLinks">Configure Solution Codes</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgexpcodes-display"
+                                    class="myLinks">Configure Exception Codes</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#cfgcommissuesetting-Manage"
+                                    class="myLinks">Communication Issue Settings</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgrmailpatternactions-Manage"
+                                    class="myLinks">Manage Email Subject Patterns and Actions</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="sys-set-and-comm-conf">Systems Settings and Common Configurations</label>
+                        <ol id="sys-set-and-comm-conf">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#genericpartnerdirectories-manage"
+                                    class="myLinks">Manage Direct Editable Partner Directories</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#msgstopcontrol-Manage"
+                                    class="myLinks">Manage Message Processing Stop Control</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgcloudapiconns-Manage"
+                                    class="myLinks">Manage Cloud Communication Scenarios</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mgriflowversions-Manage"
+                                    class="myLinks">Manage IFlow Versions</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#commsystems-Manage"
+                                    class="myLinks">Manage Communication Systems</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#commscenarioids-Manage"
+                                    class="myLinks">Manage Communication Scenarioids</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#partnerdirectories-Manage"
+                                    class="myLinks">Manage Partner Directories</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#communicationusers-manage"
+                                    class="myLinks">Manage Communication Users</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#authmaterials-manage"
+                                    class="myLinks">Manage Authentication Materials</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#mktsystemdetermination-Manage"
+                                    class="myLinks">Manage Market Process System Determination</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <label for="logs">Logs</label>
+                        <ol id="logs">
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#changehistory-Display"
+                                    class="myLinks">Show Change Histories</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#cpipartnerdictory-display"
+                                    class="myLinks">Monitor CPI Partner Directories</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#pdsyncerrors-manage"
+                                    class="myLinks">Monitor Customer Partner Directory Synchronization
+                                    Status</a></li>
+                            <li><a href="https://maco-stage-hotfix.cfapps.sap.hana.ondemand.com/cp.portal/site#masterdatasync-display"
+                                    class="myLinks">Monitor Data Synchronization Transactions</a></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

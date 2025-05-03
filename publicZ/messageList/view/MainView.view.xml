@@ -1,0 +1,137 @@
+<mvc:View
+    controllerName="sap.maco.apps.groovylist01.controller.MainView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+>
+    <f:DynamicPage
+        id="dynamicPageId"
+        headerPinned="true"
+    >
+        <!-- DynamicPage Header -->
+        <f:header>
+            <f:DynamicPageHeader>
+                <Toolbar>
+                    <Title text="Messages ({ui>/count}/{ui>/total})" />
+                    <ToolbarSpacer />
+                    <SearchField
+                        width="38rem"
+                        value="{/search}"
+                        liveChange=".onSearch"
+                    />
+                    <Button
+                        text="Sort by Start"
+                        press=".onSortStartPress"
+                    />
+                    <Link
+                        text="{/identifier}"
+                        href="{/monitorLink}"
+                        target="_blank"
+                    />
+                </Toolbar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+        <f:content>
+            <Table
+                id="idMessageProcessLogsTable"
+                sticky="ColumnHeaders"
+                inset="false"
+                growing="true"
+                growingThreshold="1000"
+                updateFinished=".onUpdateFinished"
+                items="{/MessageProcessLogs}"
+            >
+                <columns>
+                    <Column width="7rem">
+                        <Text text="No." />
+                    </Column>
+                    <Column width="35rem">
+                        <Text text="Message" />
+                    </Column>
+                    <Column
+                        width="20rem"
+                        demandPopin="true"
+                    >
+                        <Text text="MessageGuid" />
+                    </Column>
+                    <Column>
+                        <Text
+                            text="Sender / Receiver"
+                            maxLines="2"
+                        />
+                    </Column>
+                    <Column
+                        hAlign="End"
+                        demandPopin="true"
+                    >
+                        <Text
+                            text="iFlow Design"
+                            maxLines="1"
+                        />
+                    </Column>
+                    <Column
+                        hAlign="End"
+                        width="8rem"
+                    >
+                        <Text text="Status" />
+                    </Column>
+                    <Column
+                        hAlign="End"
+                        width="4rem"
+                    >
+                        <Text text="Action" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text
+                                text=" {_paddingStartIndex} -> {_paddingIndex}"
+                            />
+                            <ObjectIdentifier
+                                title="{IntegrationFlowName}"
+                                titleActive="true"
+                                titlePress=".onTitlePress"
+                                text="{
+                                    path: 'LogStart',
+                                    formatter: '.formatter.formatStartDateDisplay'
+                                } -> {
+                                    path: 'LogEnd',
+                                    formatter: '.formatter.formatDateDisplay'
+                                } : {_spanMs}ms"
+                            />
+                            <Link
+                                text="{MessageGuid}"
+                                href="{_cpiMonitorMessageLogLink}"
+                                target="_blank"
+                            />
+                            <Text
+                                text="{Sender} / {Receiver} : {ApplicationMessageType}"
+                                maxLines="2"
+                            />
+                            <Link
+                                text="{IntegrationFlowName}"
+                                href="{_cpiDesignContentPackageLink}"
+                                target="_blank"
+                            />
+                            <ObjectStatus
+                                id="msgStatus"
+                                text="{Status}"
+                                title="{LogLevel}"
+                                state="{
+                                    path: 'Status',
+                                    formatter: '.formatter.formatStatusDisplay'
+                                }"
+                            />
+                            <Button
+                                icon="sap-icon://detail-view"
+                                press=".onDetail"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

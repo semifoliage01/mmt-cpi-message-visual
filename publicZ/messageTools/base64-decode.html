@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Base64 Coding</title>
+        <style>
+            textarea {
+                width: 48%;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            <label for="input">Base 64:</label>
+            <br />
+            <textarea title="base64" id="input" rows="50"></textarea>
+            <textarea title="out" id="output" rows="50"></textarea>
+            <br />
+            <button type="button" onclick="decode()">decode</button>
+            <button type="button" onclick="encode()">encode</button>
+        </p>
+    </body>
+    <script>
+        function decode() {
+            let input = document.getElementById("input").value;
+            let result = atob(input);
+            console.log(result);
+            var out = document.getElementById("output");
+            out.value = result;
+        }
+        function encode() {
+            let input = document.getElementById("input").value;
+            let result = btoa(input);
+            console.log(result);
+            var out = document.getElementById("output");
+            out.value = result;
+        }
+    </script>
+</html>
