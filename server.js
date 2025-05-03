@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Serve static files from 'public' directory
-app.use(express.static('publicZ'));
+app.use(express.static('public'));
 // app.use(express.static('/Users/I048389/Documents/working_mass/working_sharingz/tool_sky/mmt-cpi-message-visualization_2024-07-05_KT/ui5-app-playround/uimodule/webapp'));
 
 // Example API endpoint

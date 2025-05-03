@@ -11,7 +11,7 @@ async function buildGraphFlow(correlationId){
   try{
     let json = await readFile(
       resolve(
-        "./publicZ/messageList/model/data",
+        "./public/messageList/model/data",
         "data.json"
       ),
       { encoding: "utf8" }
@@ -117,7 +117,7 @@ async function buildGraphFlow(correlationId){
 
     // lines from to
     await writeFile(
-      resolve("./publicZ/messageGraph/", "graph.json"),
+      resolve("./public/messageGraph/", "graph.json"),
       JSON.stringify({
         CorrelationId: CorrelationId,
         InterchangeId: InterchangeId,
@@ -177,7 +177,7 @@ async function buildGraphFlow(correlationId){
 
     await writeFile(
       resolve(
-        "./publicZ/messageGraph/",
+        "./public/messageGraph/",
         "graph_cls.json"
       ),
       JSON.stringify({
@@ -214,7 +214,7 @@ async function buildGraphFlow(correlationId){
 
     await writeFile(
       resolve(
-        "./publicZ/messageGraph/",
+        "./public/messageGraph/",
         "graph_pkg.json"
       ),
       JSON.stringify({

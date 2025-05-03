@@ -91,7 +91,7 @@ async function buildOriginalJSONs(host,identifier){
     };
     await writeFile(
       resolve(
-        "./publicZ/messageList/model/data",
+        "./public/messageList/model/data",
         "data.json"
       ),
       JSON.stringify(modelData),

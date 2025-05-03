@@ -11,7 +11,7 @@ async function moveGraphFlow(sampleName, sampleId){
   try{
     let json = await readFile(
       resolve(
-        "./publicZ/messageGraph/",
+        "./public/messageGraph/",
         "graph.json"
       ),
       { encoding: "utf8" }
@@ -51,14 +51,14 @@ async function moveGraphFlow(sampleName, sampleId){
 
     // lines from to
     await writeFile(
-      resolve("./publicZ/messageGraphSample/iflows", sampleIdFileName),
+      resolve("./public/messageGraphSample/iflows", sampleIdFileName),
       json,
       { encoding: "utf8" }
     );
 
     let commboxJson = await readFile(
       resolve(
-        "./publicZ/messageGraphSample/",
+        "./public/messageGraphSample/",
         "data.json"
       ),
       { encoding: "utf8" }
@@ -70,7 +70,7 @@ async function moveGraphFlow(sampleName, sampleId){
     const updatedJsonData = JSON.stringify(jsonData, null, 2);
 
     await writeFile(
-      resolve("./publicZ/messageGraphSample", "data.json"),
+      resolve("./public/messageGraphSample", "data.json"),
       updatedJsonData,
       { encoding: "utf8" }
     );
