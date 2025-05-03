@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JSON Pretty</title>
+        <style>
+            textarea {
+                width: 48%;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            <label for="prefix">JSON:</label>
+            <br />
+            <textarea title="json" id="input" rows="50"></textarea>
+            <textarea title="out" id="output" rows="50"></textarea>
+            <br />
+            <button type="button" onclick="pretty()">Pretty</button>
+        </p>
+    </body>
+    <script>
+        function pretty() {
+            let input = document.getElementById("input").value;
+            let result = JSON.stringify(JSON.parse(input), null, 2);
+            console.log(result);
+            var out = document.getElementById("output");
+            out.value = result;
+        }
+    </script>
+</html>

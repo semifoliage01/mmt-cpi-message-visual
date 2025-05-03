@@ -1,0 +1,135 @@
+<mvc:View
+    controllerName="sap.maco.apps.groovylist01.controller.MainView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+>
+    <f:DynamicPage
+        id="dynamicPageId"
+        headerPinned="true"
+    >
+        <!-- DynamicPage Header -->
+        <f:header>
+            <f:DynamicPageHeader>
+                <Toolbar>
+                    <Title text="Groovies ({ui>/count}/{ui>/total})" />
+                    <Link
+                        visible="false"
+                        text="#DevSuite"
+                        href="https://cpi-mmt-dev.integrationsuite.cfapps.eu10-003.hana.ondemand.com/shell/home"
+                        target="_blank"
+                    />
+                    <ToolbarSpacer />
+                    <SearchField
+                        width="38rem"
+                        value="{/search}"
+                        liveChange=".onSearch"
+                    />
+                    <Select
+                        items="{systems>/CpiSystems}"
+                        change=".onChangeSystem"
+                    >
+                        <core:Item
+                            key="{systems>Name}"
+                            text="{systems>Name}"
+                        />
+                    </Select>
+                    <Link
+                        text="#Monitoring"
+                        href="https://{ui>/system/Host}/itspaces/shell/monitoring/Overview"
+                        target="_blank"
+                    />
+                    <Link
+                        text="#Failed Messages"
+                        href="https://{ui>/system/Host}/itspaces/shell/monitoring/Messages/%7B%22status%22%3A%22FAILED%22%2C%22type%22%3A%22INTEGRATION_FLOW%22%2C%22time%22%3A%22PASTHOUR%22%2C%22useAdvancedFields%22%3Afalse%7D"
+                        target="_blank"
+                    />
+                    <Link
+                        text="#MessageQueues"
+                        href="https://{ui>/system/Host}/itspaces/shell/monitoring/MessageQueues/%7B%22type%22%3A%22ALL%22%7D"
+                        target="_blank"
+                    />
+                </Toolbar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+        <f:content>
+            <Table
+                id="idMessageProcessLogsTable"
+                sticky="ColumnHeaders"
+                inset="false"
+                growing="true"
+                growingThreshold="600"
+                updateFinished=".onUpdateFinished"
+                items="{/Groovies}"
+            >
+                <columns>
+                    <Column width="4em">
+                        <Text text="No." />
+                    </Column>
+                    <Column
+                        width="18em"
+                        mergeDuplicates="true"
+                    >
+                        <Text text="Packages" />
+                    </Column>
+                    <Column
+                        width="28em"
+                        mergeDuplicates="true"
+                    >
+                        <Text text="iFlows" />
+                    </Column>
+                    <Column width="38em">
+                        <Text text="Groovy" />
+                    </Column>
+                    <Column
+                        hAlign="End"
+                        width="4em"
+                    >
+                        <Text text="File" />
+                    </Column>
+                    <Column
+                        hAlign="End"
+                        width="4em"
+                    >
+                        <Text text="Action" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text text="{_paddingIndex}" />
+                            <Link
+                                text="{iflowPackage}"
+                                href="{iflowPackageCpiLink}"
+                                target="_blank"
+                                wrapping="true"
+                            />
+                            <Link
+                                text="{iflow}"
+                                href="{iflowCpiLink}"
+                                target="_blank"
+                                wrapping="true"
+                            />
+                            <Link
+                                text="{groovy}"
+                                href="{groovyCpiLink}"
+                                target="_blank"
+                            />
+                            <Link
+                                text="#Path"
+                                href="{filePathLink}"
+                                press=".onCopyFilePath"
+                            />
+                            <Button
+                                icon="sap-icon://detail-view"
+                                press=".onDetail"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
