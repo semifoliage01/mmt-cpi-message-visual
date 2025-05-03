@@ -94,6 +94,94 @@
         .hidden {
             display: none;
         }
+
+        .tool-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .tool-section h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 300px;
+            flex: 1;
+        }
+
+        select.input-field {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+
+        .radio-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result.error {
+            background-color: #fff5f5;
+            border-color: #ffd6d6;
+            color: #dc3545;
+        }
+
+        #saveSample {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        #saveSample .input-group {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -115,25 +203,34 @@
             <div class="tool-section">
               <h2>Fetch Iflow Logs</h2>
               <div class="input-group">
-                  <select id="envId">
+                  <select id="envId" class="input-field">
                     <option value="dev">DEV</option>
                     <option value="ci">CI</option>
                     <option value="test">Test</option>
                     <option value="test-hfc">Test-hfc(SKR)</option>
                   </select>
-                  <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
-                  <button onclick="fetchIflow()">Fetch iflow</button>
-                  <div id="correlationIdFetched" ></div>
-                  <div id="getResult" class="result"></div>
+                  <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field">
+                  <button onclick="fetchIflow()">Fetch Iflow</button>
+              </div>
+              <div id="correlationIdFetched" class="result"></div>
+              <div id="getResult" class="result"></div>
+
+              <div class="radio-group">
+                <label>
+                    <input type="radio" name="visibility" value="show" onclick="toggleVisibility('show')">
+                    Save fetched as sample
+                </label>
               </div>
 
-              <div class="input-group">
-                <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
-                <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field" width="250px" onkeypress="fetc2hIflow(event)">
-                <button onclick="generateSample()">Fetch iflow</button>
+              <div id="saveSample" style="display: none;">
+                <div class="input-group">
+                  <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field">
+                  <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field">
+                  <button onclick="generateSample()">Save Sample</button>
+                </div>
                 <div id="getSaveSampleResult" class="result"></div>
+              </div>
             </div>
-          </div>
 
             <div class="tool-section">
                 <h2>Time Converter</h2>
@@ -161,6 +258,14 @@
         </div>
     </div>
     <script>
+        function toggleVisibility(value) {
+            const hidden = document.getElementById('saveSample');
+            if (value === 'show') {
+                hidden.style.display = 'block'; // Show the content
+            } else {
+                hidden.style.display = 'none'; // Hide the content
+            }
+        }
         function generateInterchangeIdV1() {
             let prefix = document.getElementById("prefix").value;
             let interchangeId = prefix + String(new Date().getTime()).substring(0, 10);
@@ -279,7 +384,7 @@
         async function generateSample() {
             const sampleId =  document.getElementById('sampleId').value;
             const sampleName = document.getElementById('sampleName').value;
-            const resultEv = document.getElementById('getSaveSampleResult').value;
+            const resultEv = document.getElementById('getSaveSampleResult');
             const fetchedCorrelationId = document.getElementById('correlationIdFetched').value;
             try {
                 // if (!fetchedCorrelationId) {
@@ -298,6 +403,11 @@
                 if(!sampleId) {
                     throw new Error('Please input sampleId');
                 }
+
+                const regex = /^[a-zA-Z0-9_]+$/;
+                if (!regex.test(sampleId)){
+                    throw new Error('Please input sampleId only with number, char and _. ');
+                }
                 
                 console.log('Making request to:', `/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
                 const response = await fetch(`/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
@@ -310,7 +420,7 @@
                 resultEv.textContent = JSON.stringify(data, null, 2);
                 resultEv.classList.remove('error');
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error:', error.message);
                 resultEv.textContent = 'Error: ' + error.message;
                 resultEv.classList.add('error');
             }

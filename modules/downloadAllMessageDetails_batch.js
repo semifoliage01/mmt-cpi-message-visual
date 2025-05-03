@@ -18,7 +18,7 @@ if (env.useInterchangeId === "true") {
   console.log("used interchangeId:", identifier);
 } else {
   identifier = env.correlationId;
-  console.log("used correlationId:", identifier);
+  // console.log("used correlationId:", identifier);
 }
 
 async function downloadAllMessageDetailsBatch(host, count, correlationId, authorization) {

@@ -14,7 +14,7 @@ if (env.useInterchangeId === "true") {
   console.log("used identifier:", identifier);
 } else {
   identifier = env.correlationId;
-  console.log("used correlationId:", identifier);
+  // console.log("used correlationId:", identifier);
 }
 
 async function buildOriginalJSONs(host,identifier){

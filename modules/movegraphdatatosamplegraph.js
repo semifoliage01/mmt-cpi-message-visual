@@ -16,6 +16,7 @@ async function moveGraphFlow(sampleName, sampleId){
       ),
       { encoding: "utf8" }
     );
+    console.log("generate sample: get the original datas");
     let groupsKeys = [];
     let groups = [];
     let data = JSON.parse(json);
@@ -56,6 +57,8 @@ async function moveGraphFlow(sampleName, sampleId){
       { encoding: "utf8" }
     );
 
+    console.log("generate sample: general graph data from the original datas");
+
     let commboxJson = await readFile(
       resolve(
         "./public/messageGraphSample/",
@@ -63,6 +66,7 @@ async function moveGraphFlow(sampleName, sampleId){
       ),
       { encoding: "utf8" }
     );
+    console.log("generate sample: add new items to the category list json");
 
     let jsonData = JSON.parse(commboxJson);
     jsonData.items.push({"key" : sampleId, "text" : sampleName});
@@ -74,6 +78,8 @@ async function moveGraphFlow(sampleName, sampleId){
       updatedJsonData,
       { encoding: "utf8" }
     );
+
+    console.log("generate sample: done successfully");
 
     // refine class
     return "success";
