@@ -397,9 +397,9 @@
             const resultEv = document.getElementById('getSaveSampleResult');
             const fetchedCorrelationId = document.getElementById('correlationIdFetched').value;
             try {
-                // if (!fetchedCorrelationId) {
-                //     throw new Error('Please fetch a correlationid firstly');    ---> to be added back
-                // }
+                if (!fetchedCorrelationId) {
+                    throw new Error('Please fetch a correlationid firstly');
+                }
 
                 const envId = document.getElementById('envId').value;
                 if (!envId) {

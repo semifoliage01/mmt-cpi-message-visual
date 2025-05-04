@@ -1,5 +1,5 @@
 npm install
-node server.js
+npm start
 
 # UI5 App Playground
 
