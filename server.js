@@ -92,7 +92,7 @@ app.get('/api/moveData', async (req, res) => {
     }
 });
 
-app.post('/api/moveData2', async (req, res) => {
+app.post('/api/readData', async (req, res) => {
     try{
     const data = req.body;
     const { sampleName, sampleId } = req.query;  

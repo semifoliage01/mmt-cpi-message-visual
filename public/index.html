@@ -195,6 +195,7 @@
                 <li><a href="/messageGantt/index.html" class="myLinks">Message Gantt</a></li>
                 <li><a href="/messageList/index.html" class="myLinks">Message List</a></li>
                 <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample</a></li>
+                <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample List</a></li>
             </ol>
         </div>
         
@@ -258,6 +259,12 @@
         </div>
     </div>
     <script>
+
+        const storedCorrelationId = localStorage.getItem("CloudIntegrationFlow_CorrelationId");
+        if (storedCorrelationId != null){
+            document.getElementById('correlationIdFetched').textContent = "Fetched CorrelationId : " + storedCorrelationId;
+            document.getElementById('correlationId').value = storedCorrelationId;
+        }
         function toggleVisibility(value) {
             const hidden = document.getElementById('saveSample');
             if (value === 'show') {
@@ -354,6 +361,7 @@
             try {
                 const correlationId = document.getElementById('correlationId').value;
                 fetchCorrelationIdele.textContent = "Fetched CorrelationId : " + correlationId;
+                resultDiv.textContent = "Fetching, please wait ....."
                 if (!correlationId) {
                     throw new Error('Please enter a correlation ID');
                 }
@@ -373,6 +381,8 @@
                 const data = await response.json();
                 resultDiv.textContent = JSON.stringify(data, null, 2);
                 resultDiv.classList.remove('error');
+                localStorage.setItem("CloudIntegrationFlow_CorrelationId", correlationId)
+                window.open('http://localhost:3009/messageGraphSample/index.html', '_blank');
             } catch (error) {
                 console.error('Error:', error);
                 resultDiv.textContent = 'Error: ' + error.message;
