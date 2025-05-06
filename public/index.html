@@ -382,7 +382,7 @@
                 resultDiv.textContent = JSON.stringify(data, null, 2);
                 resultDiv.classList.remove('error');
                 localStorage.setItem("CloudIntegrationFlow_CorrelationId", correlationId)
-                window.open('http://localhost:3009/messageGraphSample/index.html', '_blank');
+                window.open('http://localhost:3009/messageGraph/index.html', '_blank');
             } catch (error) {
                 console.error('Error:', error);
                 resultDiv.textContent = 'Error: ' + error.message;
