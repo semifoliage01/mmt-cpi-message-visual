@@ -395,9 +395,10 @@
             const sampleId =  document.getElementById('sampleId').value;
             const sampleName = document.getElementById('sampleName').value;
             const resultEv = document.getElementById('getSaveSampleResult');
-            const fetchedCorrelationId = document.getElementById('correlationIdFetched').value;
+            const fetchedCorrelationIdObj = document.getElementById('correlationIdFetched').textContent;
             try {
-                if (!fetchedCorrelationId) {
+                if (fetchedCorrelationIdObj == null || document.getElementById('correlationIdFetched').textContent.split(':')[1] == null
+                    || document.getElementById('correlationIdFetched').textContent.split(':')[1].trim() == null ) {
                     throw new Error('Please fetch a correlationid firstly');
                 }
 
