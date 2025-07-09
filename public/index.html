@@ -254,6 +254,7 @@
                         <button onclick="makeIDEAEnv()">Make IDEA Environment properties</button>
                         <button onclick="clearTextAreaSessionStorage()">Clear</button>
                          <button onclick="copyToclipBoard()">Copy to Clipboard</button>
+                         <button onclick="testOCR()">Test OCT</button>
                     </div>
                     <textarea id="output" class="textarea" placeholder="Output will appear here..." readonly></textarea>
                 </div>
@@ -499,6 +500,17 @@
             let textarea = document.getElementById("input");
             textarea.value = "";
             sessionStorage.setItem('inputTextArea', "");
+        }
+
+        async function testOCR(){
+            console.log("OCR TEST Front....");
+            const url = "http://localhost:8080/ocrtest"
+            await fetch(url, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
         }
 
         function makeIDEAEnv(){
