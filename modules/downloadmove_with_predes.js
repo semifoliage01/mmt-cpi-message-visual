@@ -14,7 +14,7 @@ if (env.useInterchangeId === "true") {
   console.log("used identifier:", identifier);
 } else {
   identifier = env.correlationId;
-  console.log("used correlationId:", identifier);
+  // console.log("used correlationId:", identifier);
 }
 
 async function buildOriginalJSONs(host,identifier){
@@ -91,7 +91,7 @@ async function buildOriginalJSONs(host,identifier){
     };
     await writeFile(
       resolve(
-        "./publicZ/messageList/model/data",
+        "./public/messageList/model/data",
         "data.json"
       ),
       JSON.stringify(modelData),

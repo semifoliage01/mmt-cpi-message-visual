@@ -1,5 +1,5 @@
 npm install
-npm run start
+npm start
 
 # UI5 App Playground
 
