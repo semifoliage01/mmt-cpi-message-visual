@@ -75,6 +75,22 @@
     {
       "key": "sample_test",
       "text": "sample_test"
+    },
+    {
+      "key": "WebAPI_Outbound_Request",
+      "text": "WebAPI_Outbound_Request"
+    },
+    {
+      "key": "TEST_HFC_Inbound_AS4_COMDIS_Splitter_4trans",
+      "text": "TEST_HFC_Inbound_AS4_COMDIS_Splitter_4trans"
+    },
+    {
+      "key": "TEST_HFC_Inbound_AS4_COMDIS_Splitter_1_2trans",
+      "text": "TEST_HFC_Inbound_AS4_COMDIS_Splitter_1_2trans"
+    },
+    {
+      "key": "TEST_HFC_Inbound_Send_PARTIN",
+      "text": "TEST_HFC_Inbound_Send_PARTIN"
     }
   ]
 }

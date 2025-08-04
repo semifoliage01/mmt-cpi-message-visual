@@ -182,85 +182,350 @@
         #saveSample .input-group {
             margin-bottom: 10px;
         }
+        /* Tab styles for Send Message area */
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            outline: none;
+            padding: 10px 30px;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--secondary-color);
+            border-radius: 8px 8px 0 0;
+            margin-right: 2px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--background-color);
+            color: var(--primary-color);
+            font-weight: bold;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .form-container {
+            margin-top: 0;
+            background: #fafbfc;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 24px 24px 16px 24px;
+            max-width: 1200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .form-section {
+            margin-bottom: 18px;
+        }
+        .inline-fields {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .form-control, .input-field {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+        .inline-fields > div {
+            flex: 1 1 220px;
+            min-width: 180px;
+        }
+        .form-container label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 2px;
+            display: block;
+        }
+        .form-container textarea {
+            width: 100%;
+            min-height: 120px;
+            font-size: 1em;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        @media (max-width: 900px) {
+            .form-container {
+                padding: 12px 4px 8px 4px;
+            }
+            .inline-fields {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+        /* End tab styles */
+        .form-container .env-select-group {
+            margin-bottom: 16px;
+        }
+        .form-container .env-select-group label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 2px;
+            display: block;
+        }
+        .form-container .env-select-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
 <body>
     <div class="grid">
-        <div class="g-menu">
-            <label for="message">CPI Message Tools</label>
-            <ol id="message">
-                <li><a href="/groovyList/index.html" class="myLinks">Groovy List</a></li>
-                <li><a href="/messageGraph/index.html" class="myLinks">Message Flow Graph</a></li>
-                <li><a href="/messageGantt/index.html" class="myLinks">Message Gantt</a></li>
-                <li><a href="/messageList/index.html" class="myLinks">Message List</a></li>
-                <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample</a></li>
-                <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample List</a></li>
-            </ol>
+        <div>
+            <div class="g-menu">
+                <label for="message">CPI Iflow Logs Analysis</label>
+                <ol id="message">
+                    <li><a href="#" class="myLinks" id="fetchIflowLogLink">Iflow Logs</a></li>
+                    <li><a href="/groovyList/index.html" class="myLinks">Groovy List</a></li>
+                    <li><a href="/messageGraph/index.html" class="myLinks">Message Flow Graph</a></li>
+                    <li><a href="/messageGantt/index.html" class="myLinks">Message Gantt</a></li>
+                    <li><a href="/messageList/index.html" class="myLinks">Message List</a></li>
+                    <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample</a></li>
+                    <li><a href="/messageGraphSample/index.html" class="myLinks">Message Flow Graph Sample List</a></li>
+                </ol>
+            </div>
+            <div class="g-menu">
+                <label for="message">Message Tools</label>
+                <ol id="message">
+                    <li><a href="#" class="myLinks" id="sendMessageLink">Send Message</a></li>
+                    
+                </ol>
+            </div>
+            
         </div>
         
         <div class="g-main">
+            <div id="iflow" class="g-main-content">
 
-            <div class="tool-section">
-              <h2>Fetch Iflow Logs</h2>
-              <div class="input-group">
-                  <select id="envId" class="input-field">
-                    <option value="dev">DEV</option>
-                    <option value="ci">CI</option>
-                    <option value="test">Test</option>
-                    <option value="test-hfc">Test-hfc(SKR)</option>
-                  </select>
-                  <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field">
-                  <button onclick="fetchIflow()">Fetch Iflow</button>
-              </div>
-              <div id="correlationIdFetched" class="result"></div>
-              <div id="getResult" class="result"></div>
-
-              <div class="radio-group">
-                <label>
-                    <input type="checkbox" id = "visibility" name="visibility" value="show" onclick="toggleVisibility('show')">
-                    Save fetched as sample
-                </label>
-              </div>
-
-              <div id="saveSample" style="display: none;">
+                <div class="tool-section">
+                <h2>Fetch Iflow Logs</h2>
                 <div class="input-group">
-                  <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field">
-                  <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field">
-                  <button onclick="generateSample()">Save Sample</button>
+                    <select id="envId" class="input-field">
+                        <option value="dev">DEV</option>
+                        <option value="ci">CI</option>
+                        <option value="test">Test</option>
+                        <option value="test-hfc">Test-hfc(SKR)</option>
+                    </select>
+                    <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field">
+                    <button onclick="fetchIflow()">Fetch Iflow</button>
                 </div>
-                <div id="getSaveSampleResult" class="result"></div>
-              </div>
-            </div>
+                <div id="correlationIdFetched" class="result"></div>
+                <div id="getResult" class="result"></div>
 
-            <div class="tool-section">
-                <h2>Time Converter</h2>
-                <div class="input-group">
-                    <input type="number" id="in_ms" placeholder="Enter milliseconds" class="input-field" onkeypress="timeConvertMilliseconds(event)">
-                    <button onclick="parseDate()">Parse Date</button>
-                    <div id="out_ms" class="output-field"></div>
+                <div class="radio-group">
+                    <label>
+                        <input type="checkbox" id = "visibility" name="visibility" value="show" onclick="toggleVisibility('show')">
+                        Save fetched as sample
+                    </label>
                 </div>
-            </div>
 
-            <div class="tool-section">
-                <h2>Text Tools</h2>
-                <div class="text-tools">
-                    <textarea id="input" class="textarea" placeholder="Enter text here..." oninput="persistInSessionStorage(event)"></textarea>
-                    <div class="button-group">
-                        <button onclick="base64Encode()">Base64 Encode</button>
-                        <button onclick="base64Decode()">Base64 Decode</button>
-                        <button onclick="jsonPretty()">Format JSON</button>
-                        <button onclick="jsonMinify()">Minify JSON</button>
-                        <button onclick="makeIDEAEnv()">Make IDEA Environment properties</button>
-                        <button onclick="clearTextAreaSessionStorage()">Clear</button>
-                         <button onclick="copyToclipBoard()">Copy to Clipboard</button>
-                         <button onclick="testOCR()">Test OCT</button>
+                <div id="saveSample" style="display: none;">
+                    <div class="input-group">
+                    <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field">
+                    <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field">
+                    <button onclick="generateSample()">Save Sample</button>
                     </div>
-                    <textarea id="output" class="textarea" placeholder="Output will appear here..." readonly></textarea>
+                    <div id="getSaveSampleResult" class="result"></div>
                 </div>
+                </div>
+
+                <div class="tool-section">
+                    <h2>Time Converter</h2>
+                    <div class="input-group">
+                        <input type="number" id="in_ms" placeholder="Enter milliseconds" class="input-field" onkeypress="timeConvertMilliseconds(event)">
+                        <button onclick="parseDate()">Parse Date</button>
+                        <div id="out_ms" class="output-field"></div>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h2>Text Tools</h2>
+                    <div class="text-tools">
+                        <textarea id="input" class="textarea" placeholder="Enter text here..." oninput="persistInSessionStorage(event)"></textarea>
+                        <div class="button-group">
+                            <button onclick="base64Encode()">Base64 Encode</button>
+                            <button onclick="base64Decode()">Base64 Decode</button>
+                            <button onclick="jsonPretty()">Format JSON</button>
+                            <button onclick="jsonMinify()">Minify JSON</button>
+                            <button onclick="makeIDEAEnv()">Make IDEA Environment properties</button>
+                            <button onclick="clearTextAreaSessionStorage()">Clear</button>
+                            <button onclick="copyToclipBoard()">Copy to Clipboard</button>
+                            <button onclick="testOCR()">Test OCT</button>
+                        </div>
+                        <textarea id="output" class="textarea" placeholder="Output will appear here..." readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--- Message Group-------------------------------------------------------------------->
+
+
+            <div id="sendMessageArea" class="g-main-content" style="display: none;">
+                <div class="tab-buttons">
+                    <button onclick="switchForm('as2form')" class="tab-btn active" id="tab1">AS2</button>
+                    <button onclick="switchForm('webapiform')" class="tab-btn" id="tab2">Web API</button>
+                    <button onclick="switchForm('as4inboundform')" class="tab-btn" id="tab3">AS4</button>
+                    <button onclick="switchForm('as2Outform')" class="tab-btn" id="tab4">AS2 Outbound</button>
+                    <button onclick="switchForm('as4Outform')" class="tab-btn" id="tab5">AS4 Outbound</button>
+                    <button onclick="switchForm('webAPIOutform')" class="tab-btn" id="tab6">Web API Outbound</button>
+                </div>
+        
+                <!-- First form -->
+                <div class="form-container" id="as2form" >
+                    <form action="/api/send" method="POST" name="formSendEDI" id="formSendEDIAS2">
+                        <div class="env-select-group">
+                            <label for="envIdAs2">Environment</label>
+                            <select id="envIdAs2" name="envIdAs2" class="input-field">
+                                <option value="dev">DEV</option>
+                                <option value="ci">CI</option>
+                                <option value="test">Test</option>
+                                <option value="test-hfc">Test-hfc(SKR)</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="systemIdAs2" name="systemId" value="">
+                        <input type="hidden" id="commMethodAs2" name="commMethod" value="">
+                        <br>
+                        Payload:
+                        <br>
+                        <textarea name="payload" id='payloadAs2'
+                            onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5" rows="30"
+                            cols="110"></textarea>
+                        <div>
+                            <input type="checkbox" name="regenerateId" value="yes" checked="checked">
+                            <label for="regenerateId">Regenerate Interchange Id and Message Reference Id</label>
+                        </div>
+                         <div class="form-actions">
+                            <input type="submit" value="Send" onclick="return formSendEDISubmitMulti('as2form');">
+                            
+                        </div>
+                    </form>
+                    <button type="button" onclick="formatEDIMulti('as2form')">Format Payload</button>
+                    <button type="button" onclick="revertbackMulti('as2form')">Remove Useless Spaces</button>
+                </div>
+                <!-- Second form -->
+                <div class="form-container" id="webapiform" style="display:none;">
+                    <form action="/mmt-inbound-edifact/send" method="POST" name="formSendEDI" id="formSendEDIWebAPI">
+                        <div class="env-select-group">
+                            <label for="envIdWebapi">Environment</label>
+                            <select id="envIdWebapi" name="envIdWebapi" class="input-field">
+                                <option value="dev">DEV</option>
+                                <option value="ci">CI</option>
+                                <option value="test">Test</option>
+                                <option value="test-hfc">Test-hfc(SKR)</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="systemIdWebapi" name="systemId" value="">
+                        <input type="hidden" id="commMethodWebapi" name="commMethod" value="">
+                        <div class="form-section">
+                            <div class="inline-fields">
+                                <div>
+                                    <label for="webapiSender">maco_senderId</label>
+                                    <input type="text" name="sender" id="webapiSender" value="" placeholder="enter sender..." class="form-control">
+                                </div>
+                                <div>
+                                    <label for="webapiReceiver">maco_receiverId</label>
+                                    <input type="text" name="receiver" id="webapiReceiver" value="" placeholder="enter receiver..." class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="inline-fields">
+                                <div>
+                                    <label for="webapiTransactionld">transactionId</label>
+                                    <input type="text" name="transactionld" id="webapiTransactionld" value="" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="webapiReferenceld">referenceId</label>
+                                    <input type="text" name="referenceld" id="webapiReferenceld" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <label for="payloadWebapi">Payload</label>
+                            <textarea name="payload" id="payloadWebapi" onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5" rows="12"></textarea>
+                        </div>
+                        <div class="form-section" style="margin-bottom: 0;">
+                            <input type="checkbox" name="regenerateId" value="yes" checked="checked" id="regenerateIdWebapi">
+                            <label for="regenerateIdWebapi" style="display:inline; font-weight:400;">Regenerate Interchange Id and Message Reference Id</label>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" value="Send" onclick="return formSendEDISubmitMulti('webapiform');">
+                            <button type="button" onclick="formatEDIMulti('webapiform')">Format Payload</button>
+                            <button type="button" onclick="revertbackMulti('webapiform')">Remove Useless Spaces</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Third form -->
+                <div class="form-container" id="as4inboundform" style="display:none;">
+                    <form action="/mmt-inbound-edifact/send" method="POST" name="formSendEDI" id="formSendAS4Inbound">
+                        <div class="env-select-group">
+                            <label for="envIdAs4">Environment</label>
+                            <select id="envIdAs4" name="envIdAs4" class="input-field">
+                                <option value="dev">DEV</option>
+                                <option value="ci">CI</option>
+                                <option value="test">Test</option>
+                                <option value="test-hfc">Test-hfc(SKR)</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="systemIdAs4" name="systemId" value="">
+                        <input type="hidden" id="commMethodAs4" name="commMethod" value="">
+                        <div class="form-section">
+                            <div class="inline-fields">
+                                <div>
+                                    <label for="as4InboundGmsg">Global MessageId</label>
+                                    <input type="text" name="as4InboundGmsg" id="as4InboundGmsg" value="" placeholder="enter gMsgId..." class="form-control">
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <label for="payloadAs4">Payload</label>
+                            <textarea name="payload" id="payloadAs4" onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5" rows="12"></textarea>
+                        </div>
+
+                        <div class="form-section">
+                            <label for="formSendAS4InboundPreview">Preview</label>
+                            <textarea name="formSendAS4InboundPreview" id="formSendAS4InboundPreview" onpropertychange="if(this.scrollHeight>80) this.style.posHeight=this.scrollHeight+5" ></textarea>
+                        </div>
+                        <div class="form-section" style="margin-bottom: 0;">
+                            <input type="checkbox" name="regenerateId" value="yes" checked="checked" id="regenerateIdAs4">
+                            <label for="regenerateIdAs4" style="display:inline; font-weight:400;">Regenerate Interchange Id and Message Reference Id</label>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" value="Send" onclick="return formSendEDISubmitMulti('as4inboundform');">
+                            <button type="button" onclick="formatEDIMulti('as4inboundform')">Format Payload</button>
+                            <button type="button" onclick="revertbackMulti('as4inboundform')">Remove Useless Spaces</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
+    <script src="./meessageProcess.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
 
         const storedCorrelationId = localStorage.getItem("CloudIntegrationFlow_CorrelationId");
@@ -268,6 +533,83 @@
             document.getElementById('correlationIdFetched').textContent = "Fetched CorrelationId : " + storedCorrelationId;
             document.getElementById('correlationId').value = storedCorrelationId;
         }
+
+        // Set default tab on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            // let htmlCollection = document.getElementsByClassName("myLinks");
+            // for (let element of htmlCollection) {
+            //     element.addEventListener("click", function (event) {
+            //         event.preventDefault();
+            //         window.open(this.href, "_blank", "noopener");
+            //     });
+            // }
+            // let textarea = document.getElementById("input");
+            // if (textarea) {
+            //     initInSessionStorage();
+            // }
+
+            const sendMessageLink = document.getElementById("sendMessageLink");
+            if (sendMessageLink) {
+                sendMessageLink.addEventListener("click", function (event) {
+                    // event.preventDefault();
+                    // Hide the iflow div
+                    const iflowDiv = document.getElementById("iflow");
+                    if (iflowDiv) iflowDiv.style.display = "none";
+                    // Show the message div
+                    const messageDiv = document.getElementById("sendMessageArea");
+                    if (messageDiv) messageDiv.style.display = "block";
+                });
+            }
+
+            const fetchIflowLogLink = document.getElementById("fetchIflowLogLink");
+            if (fetchIflowLogLink) {
+                fetchIflowLogLink.addEventListener("click", function (event) {
+                    // event.preventDefault();
+                    // Hide the iflow div
+                    const iflowDiv = document.getElementById("iflow");
+                    if (iflowDiv) iflowDiv.style.display = "block";
+                    // Show the message div
+                    const messageDiv = document.getElementById("sendMessageArea");
+                    if (messageDiv) messageDiv.style.display = "none";
+                });
+            }
+
+            // Set default tab to as2form
+            switchForm('as2form');
+        });
+
+         // Tab switching logic for Send Message area
+        function switchForm(formId) {
+            const as2form = document.getElementById("as2form");
+            const webapiform = document.getElementById("webapiform");
+            const as4inboundform = document.getElementById("as4inboundform");
+            const tab1 = document.getElementById("tab1");
+            const tab2 = document.getElementById("tab2");
+            const tab3 = document.getElementById("tab3");
+            if (formId === "as2form") {
+                as2form.style.display = "block";
+                webapiform.style.display = "none";
+                as4inboundform.style.display = "none";
+                tab1.classList.add("active");
+                tab2.classList.remove("active");
+                tab3.classList.remove("active");
+            } else if (formId === "webapiform") {
+                as2form.style.display = "none";
+                webapiform.style.display = "block";
+                as4inboundform.style.display = "none";
+                tab1.classList.remove("active");
+                tab2.classList.add("active");
+                tab3.classList.remove("active");
+            } else if (formId === "as4inboundform") {
+                as2form.style.display = "none";
+                webapiform.style.display = "none";
+                as4inboundform.style.display = "block";
+                tab1.classList.remove("active");
+                tab2.classList.remove("active");
+                tab3.classList.add("active");
+            }
+        }
+
         function toggleVisibility(value) {
             const hidden = document.getElementById('saveSample');
             const visibleButton = document.getElementById('visibility');
@@ -371,7 +713,17 @@
                     throw new Error('Please enter a correlation ID');
                 }
 
-                const envId = document.getElementById('envId').value;
+                // Try to get envId from as2form or webapiform, fallback to old id for compatibility
+                let envId = '';
+                const as2form = document.getElementById('as2form');
+                const webapiform = document.getElementById('webapiform');
+                if (as2form && as2form.style.display !== 'none') {
+                    envId = document.getElementById('envIdAs2').value;
+                } else if (webapiform && webapiform.style.display !== 'none') {
+                    envId = document.getElementById('envIdWebapi').value;
+                } else if (document.getElementById('envId')) {
+                    envId = document.getElementById('envId').value;
+                }
                 if (!envId) {
                     throw new Error('Please select an Environment');
                 }
@@ -407,7 +759,17 @@
                     throw new Error('Please fetch a correlationid firstly');
                 }
 
-                const envId = document.getElementById('envId').value;
+                // Try to get envId from as2form or webapiform, fallback to old id for compatibility
+                let envId = '';
+                const as2form = document.getElementById('as2form');
+                const webapiform = document.getElementById('webapiform');
+                if (as2form && as2form.style.display !== 'none') {
+                    envId = document.getElementById('envIdAs2').value;
+                } else if (webapiform && webapiform.style.display !== 'none') {
+                    envId = document.getElementById('envIdWebapi').value;
+                } else if (document.getElementById('envId')) {
+                    envId = document.getElementById('envId').value;
+                }
                 if (!envId) {
                     throw new Error('Please select an Environment');
                 }
@@ -539,19 +901,34 @@
             await navigator.clipboard.writeText(text);
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            let htmlCollection = document.getElementsByClassName("myLinks");
-            for (let element of htmlCollection) {
-                element.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    window.open(this.href, "_blank", "noopener");
-                });
+        function formatEDIMulti(formId) {
+            const previewAreaid = formId+"Preview";
+            const newform= document.getElementById(formId);
+            const newformPreview = document.getElementById(previewAreaid)
+            let newPayloadArea = newform.querySelector("textarea");
+            if ("webapiform" == formId){
+                const inputText= newPayloadArea.value;
+                try {
+                    const jsonObject = JSON.parse(inputText);
+
+                    const formattedJSON = JSON.stringify(jsonObject, null, 4);
+
+                    newPayloadArea.value = formattedJSON;
+                } catch (error) {
+                alert( 'Invalid JSON: ' + error.message);
+                }
             }
-            let textarea = document.getElementById("input");
-            if (textarea) {
-                initInSessionStorage();
+            if("as2form" == formId){
+                let newPayload = newform.querySelector("textarea").value.replaceAll("\n","");
+                newPayloadArea.value = newPayload.toString().split("'").join("'\n");
             }
-        });
+            if("formSendAS4Inbound" === formId ){
+                let newPayload = newform.querySelector("textarea").value.replaceAll("\n","");
+                newPayloadArea.value = newPayload.toString().split("'").join("'\n");
+            }
+        }
+
+       
     </script>
 </body>
 </body>

@@ -18,6 +18,8 @@ app.use((req, res, next) => {
 });
 // Middleware to parse JSON bodies
 app.use(express.json());
+// Middleware to parse form-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 // Serve static files from 'public' directory
 app.use(express.static('public'));
 // app.use(express.static('/Users/I048389/Documents/working_mass/working_sharingz/tool_sky/mmt-cpi-message-visualization_2024-07-05_KT/ui5-app-playround/uimodule/webapp'));
@@ -88,6 +90,62 @@ app.get('/api/moveData', async (req, res) => {
     res.json(result);
 
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/send', async function (req, res) {
+    try {
+        console.log('Received form data:', req.body);
+        console.log('Form fields:', {
+            envIdAs2: req.body.envIdAs2,
+            systemId: req.body.systemId,
+            commMethod: req.body.commMethod,
+            payload: req.body.payload,
+            regenerateId: req.body.regenerateId
+        });
+        
+        // Process the form data here
+        const result = {
+            message: 'Form data received successfully',
+            receivedData: req.body,
+            timestamp: new Date().toISOString()
+        };
+        
+        res.json(result);
+    } catch (error) {
+        console.error('Error processing form data:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/mmt-inbound-edifact/send', async function (req, res) {
+    try {
+        console.log('Received WebAPI/AS4 form data:', req.body);
+        console.log('Form fields:', {
+            envIdWebapi: req.body.envIdWebapi,
+            envIdAs4: req.body.envIdAs4,
+            systemId: req.body.systemId,
+            commMethod: req.body.commMethod,
+            sender: req.body.sender,
+            receiver: req.body.receiver,
+            transactionld: req.body.transactionld,
+            referenceld: req.body.referenceld,
+            as4InboundGmsg: req.body.as4InboundGmsg,
+            payload: req.body.payload,
+            regenerateId: req.body.regenerateId
+        });
+        
+        // Process the form data here
+        const result = {
+            message: 'WebAPI/AS4 form data received successfully',
+            receivedData: req.body,
+            timestamp: new Date().toISOString()
+        };
+        
+        res.json(result);
+    } catch (error) {
+        console.error('Error processing WebAPI/AS4 form data:', error);
         res.status(500).json({ error: error.message });
     }
 });
