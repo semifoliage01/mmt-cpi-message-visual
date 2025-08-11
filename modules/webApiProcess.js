@@ -38,7 +38,7 @@ exports.webApiProcess = {
       Accept: "*/*",
       Host: host_url.substring(8), //delete the https:// head
       // "Accept-Encoding": "gzip, deflate, br",
-      // Connection: "keep-alive",
+      // Connection: "keep-alive", 
     };
     switch(data.msgFormat){
       case "/maloid/request":
