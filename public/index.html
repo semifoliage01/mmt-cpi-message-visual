@@ -325,6 +325,7 @@
                         <option value="ci">CI</option>
                         <option value="test">Test</option>
                         <option value="test-hfc">Test-hfc(SKR)</option>
+                        <option value="preprod">PreProduction</option>
                     </select>
                     <input type="text" id="correlationId" placeholder="Enter correlationId" class="input-field">
                     <button onclick="fetchIflow()">Fetch Iflow</button>
@@ -401,6 +402,7 @@
                                 <option value="ci">CI</option>
                                 <option value="test">Test</option>
                                 <option value="test-hfc">Test-hfc(SKR)</option>
+                                <option value="preprod">PreProduction</option>                                
                             </select>
                         </div>
                         <input type="hidden" id="systemIdAs2" name="systemId" value="">
@@ -417,15 +419,15 @@
                         </div>
                          <div class="form-actions">
                             <input type="submit" value="Send" onclick="return formSendEDISubmitMulti('as2form');">
-                            
+                                    
+                            <button type="button" onclick="formatEDIMulti('as2form')">Format Payload</button>
+                            <button type="button" onclick="revertbackMulti('as2form')">Remove Useless Spaces</button>
                         </div>
                     </form>
-                    <button type="button" onclick="formatEDIMulti('as2form')">Format Payload</button>
-                    <button type="button" onclick="revertbackMulti('as2form')">Remove Useless Spaces</button>
                 </div>
                 <!-- Second form -->
                 <div class="form-container" id="webapiform" style="display:none;">
-                    <form action="/mmt-inbound-edifact/send" method="POST" name="formSendEDI" id="formSendEDIWebAPI">
+                    <form action="/api/send" method="POST" name="formSendEDI" id="formSendEDIWebAPI">
                         <div class="env-select-group">
                             <label for="envIdWebapi">Environment</label>
                             <select id="envIdWebapi" name="envIdWebapi" class="input-field">
@@ -433,6 +435,7 @@
                                 <option value="ci">CI</option>
                                 <option value="test">Test</option>
                                 <option value="test-hfc">Test-hfc(SKR)</option>
+                                <option value="preprod">PreProduction</option>
                             </select>
                         </div>
                         <input type="hidden" id="systemIdWebapi" name="systemId" value="">
@@ -479,7 +482,7 @@
 
                 <!-- Third form -->
                 <div class="form-container" id="as4inboundform" style="display:none;">
-                    <form action="/mmt-inbound-edifact/send" method="POST" name="formSendEDI" id="formSendAS4Inbound">
+                    <form action="/api/send" method="POST" name="formSendEDI" id="formSendAS4Inbound">
                         <div class="env-select-group">
                             <label for="envIdAs4">Environment</label>
                             <select id="envIdAs4" name="envIdAs4" class="input-field">
@@ -487,6 +490,7 @@
                                 <option value="ci">CI</option>
                                 <option value="test">Test</option>
                                 <option value="test-hfc">Test-hfc(SKR)</option>
+                                <option value="preprod">PreProduction</option>
                             </select>
                         </div>
                         <input type="hidden" id="systemIdAs4" name="systemId" value="">

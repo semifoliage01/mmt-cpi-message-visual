@@ -123,25 +123,32 @@
         
         // Get the form action URL
         const actionUrl = formElement.action;
-        
+        let result;
         // Submit using fetch to ensure proper data transmission
         fetch(actionUrl, {
             method: 'POST',
             body: formData,
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded',
+            // },
+            // body: urlEncodedData,
             credentials: 'include'
         })
-        .then(response => response.json())
+        .then(response => {
+            result = response.json()
+        })
         .then(data => {
             console.log('Form submission successful:', data);
             // You can add success handling here
         })
         .catch(error => {
             console.error('Form submission failed:', error);
+            result = error;
             // You can add error handling here
         });
         
         // Return false to prevent default form submission
-        return false;
+        return result;
     }
 
     function switchForm(formId) {
