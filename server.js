@@ -5,11 +5,14 @@ const { buildOriginalJSONs } = require("./modules/downloadmove_with_predes.js")
 const { buildGraphFlow } = require("./modules/buildgraphdata.js")
 const { moveGraphFlow } = require("./modules/movegraphdatatosamplegraph.js")
 const {msgSendPreparingGeneral }  = require("./MessageDepatching.js")
+const { queryDataAll, insert,queryIflowLogByScenarioName,insertIlfowLogsRecord } = require("./modules/dataOperation.js")
 const axios = require('axios');
 const express = require('express');
 const multer = require('multer');
 const { resolve } = require('path'); 
+const { randomUUID } = require("node:crypto");
 const app = express();
+const oData = require('sqlite-odata-cds');
 const port = 3009;
 
 // Configure multer for handling multipart/form-data
@@ -96,12 +99,24 @@ app.get('/api/getData', async (req, res) => {
 app.get('/api/moveData', async (req, res) => {
     try{
     const data = req.body;
-    const { sampleName, sampleId } = req.query;  
+    //query data exist or not 
+    const existData = await queryIflowLogByScenarioName("iflowlogs",sampleName,res )
+    
+    if(existData.length >0){
+        res.status(201).json({ error: 'logs has been created' });
+        return;
+    }
+    //insert logInformation to database
+    const dbInsertResult = await insertIlfowLogsRecord(req, res);
 
-    const st = await moveGraphFlow(sampleName,sampleId)
+    if(!dbInsertResult){
+       res.json({error: "insert db failed."}); 
+    }
+    //move logs
+    const moveResult = await moveGraphFlow(sampleName,sampleId);
     // Process the data
     const result = {
-        received: st,
+        received: moveResult,
         processed: true,
         timestamp: new Date().toISOString()
     };
@@ -185,6 +200,32 @@ app.post('/api/readData', async (req, res) => {
         timestamp: new Date().toISOString()
     };
     res.json(result);
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Example POST endpoint
+app.get('/api/test', async (req, res) => {
+    try{
+        const data = req.body;
+        let sqlstatment = "INSERT INTO iflowlogs";
+        sqlstatment= sqlstatment+"(Id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,iflowlogNum,techMessageId,testFixData,legalversion,messageFormat,transferdatTime,ahbversion,createOn,createBy,modifiedBy,modifiedOn)",
+        sqlstatment= sqlstatment+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        const id = UU;
+        // const datas = await queryDataAll("iflowlogs");
+
+        // const datas = await queryIflowLogByScenarioName("iflowlogs", "testa" );
+        // await insertData()
+        
+        // Process the data
+        // const result = {
+        //     received: st,
+        //     processed: true,
+        //     timestamp: new Date().toISOString()
+        // };
+        res.json(datas);
 
     } catch (error) {
         res.status(500).json({ error: error.message });

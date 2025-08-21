@@ -343,8 +343,41 @@
                 <div id="saveSample" style="display: none;">
                     <div class="input-group">
                     <input type="text" id="sampleName" placeholder="Enter name of sample" class="input-field">
-                    <input type="text" id="sampleId" placeholder="Enter Id of sample" class="input-field">
+                    <select id="commMethod" class="input-field">
+                        <option value="AS2">AS2</option>
+                        <option value="Email">Email</option>
+                        <option value="AS4">AS4</option>
+                        <option value="WebAPI">WebAPI</option>
+                        <option value="B2C">B2C</option>
+                        <option value="C2B">C2B</option>
+                    </select>
                     <button onclick="generateSample()">Save Sample</button>
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="sender" placeholder="Enter Sender" class="input-field">
+                    <input type="text" id="receiver" placeholder="Enter Receiver" class="input-field">
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="techMessageId" placeholder="Enter Technical MessageId" class="input-field">
+                    <input type="text" id="messageFormat" placeholder="Enter Message Format" class="input-field">
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="businessStatus" placeholder="Enter Business Status" class="input-field">
+                    <input type="text" id="processStatus" placeholder="Enter Process Status" class="input-field">
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="spitterCaseScenario" placeholder="is Splitter" class="input-field">
+                    <input type="text" id="legalVersion" placeholder="Enter Legal Version" class="input-field">
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="ahbversion" placeholder="Enter AHBversion" class="input-field">
+                    <select id="commDirection" class="input-field">
+                        <option value="Inbound">Inbound</option>
+                        <option value="Outbound">Outbound</option>
+                    </select>
+                    </div>
+                    <div class="input-group">
+                    <input type="text" id="autoTestcaseName" placeholder="Enter AutoTest Case Name" class="input-field">
                     </div>
                     <div id="getSaveSampleResult" class="result"></div>
                 </div>
@@ -753,7 +786,6 @@
         }
 
         async function generateSample() {
-            const sampleId =  document.getElementById('sampleId').value;
             const sampleName = document.getElementById('sampleName').value;
             const resultEv = document.getElementById('getSaveSampleResult');
             const fetchedCorrelationIdObj = document.getElementById('correlationIdFetched').textContent;
@@ -774,6 +806,22 @@
                 } else if (document.getElementById('envId')) {
                     envId = document.getElementById('envId').value;
                 }
+
+                const correlationId = document.getElementById('correlationId').value;
+                const targetsys = envId;
+                const iflowlogNum = document.getElementById('iflowlogNum');
+                const techMessageId = document.getElementById('techMessageId').value;
+                const senderId = document.getElementById('sender').value;
+                const receiverId = document.getElementById('receiver').value;
+                const legalVersion = document.getElementById('legalVersion').value;
+                const messageFormat = document.getElementById('messageFormat').value;
+                const businessStatus = document.getElementById('businessStatus').value;
+                const processStatus = document.getElementById('processStatus').value;
+                const ahbversion = document.getElementById('ahbversion').value;
+                const commDirection = document.getElementById('commDirection').value;
+                const commMethod = document.getElementById('commMethod').value;
+                const spitterCaseScenario = document.getElementById('spitterCaseScenario').value;
+                const autoTestcaseName = document.getElementById('autoTestcaseName').value;
                 if (!envId) {
                     throw new Error('Please select an Environment');
                 }
@@ -782,17 +830,21 @@
                     throw new Error('Please input sampleName');
                 }
 
-                if(!sampleId) {
-                    throw new Error('Please input sampleId');
-                }
+                // if(!sampleId) {
+                //     throw new Error('Please input sampleId');
+                // }
+                let sampleId = sampleName.replaceAll(" ","_");
 
                 const regex = /^[a-zA-Z0-9_]+$/;
                 if (!regex.test(sampleId)){
-                    throw new Error('Please input sampleId only with number, char and _. ');
+                    throw new Error('Please input sampleName only with number, char and _. ');
                 }
                 
-                console.log('Making request to:', `/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
-                const response = await fetch(`/api/moveData?sampleName=${encodeURIComponent(sampleName)}&sampleId=${encodeURIComponent(sampleId)}`);
+                console.log('Making request to:', `/api/moveData?sampleName=${encodeURIComponent(sampleId)}&sampleName=${encodeURIComponent(sampleId)}&senderId=${encodeURIComponent(senderId)}&receiverId=${encodeURIComponent(receiverId)}&legalVersion=${encodeURIComponent(legalVersion)}&messageFormat=${encodeURIComponent(messageFormat)}`);
+                const response = await fetch(`/api/moveData?sampleName=${encodeURIComponent(sampleId)}&sampleId=${encodeURIComponent(sampleId)}&correlationId=${encodeURIComponent(correlationId)}&targetsys=${encodeURIComponent(targetsys)}
+                                                &senderId=${encodeURIComponent(senderId)}&receiverId=${encodeURIComponent(receiverId)}&iflowlogNum=${encodeURIComponent(iflowlogNum)}&techMessageId=${encodeURIComponent(techMessageId)}&legalversion=${encodeURIComponent(legalVersion)}
+                                                &messageFormat=${encodeURIComponent(messageFormat)}&businessStatus=${encodeURIComponent(businessStatus)}&processStatus=${encodeURIComponent(processStatus)}&ahbversion=${encodeURIComponent(ahbversion)}&autoTestcaseName=${encodeURIComponent(autoTestcaseName)}
+                                                &commDirection=${encodeURIComponent(commDirection)}&commMethod=${encodeURIComponent(commMethod)}`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

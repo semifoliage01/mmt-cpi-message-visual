@@ -11,3 +11,4 @@ mta-*
 approuter/*/webapp/
 data/
 mockdata/
+MessageProcessingLogs/
