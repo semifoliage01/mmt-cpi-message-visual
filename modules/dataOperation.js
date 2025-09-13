@@ -1,6 +1,9 @@
 
 const sqlite3 = require("sqlite3").verbose();
+const { readFile, writeFile ,readdir} = require( "node:fs/promises");
+const { resolve } = require('path');
 const { randomUUID } = require("node:crypto");
+const { compressInput, deCompressInput } = require("./gzipCompression.js")
 let db = new sqlite3.Database("./mmtdatabase.db", (err) => {
   if (err) {
     console.error(err.message);
@@ -63,7 +66,7 @@ async function queryDataById (tableName, id){
 }
 
 async function queryIflowLogByScenarioName (tableName, scenarioName){
-    let sqlStatement = "SELECT * FROM " + tableName + " WHERE scenarioName = ?";
+    let sqlStatement = "SELECT * FROM " + tableName + " WHERE scenarioId = ?";
     return new Promise((resolve, reject) => {
     db.all(sqlStatement, [scenarioName],  (err, rows) => {
       if (err) {
@@ -89,10 +92,28 @@ async function updateDataById (tableName, rowData, res){
 
 async function insertIlfowLogsRecord(req, res){
   const data = req.query;
+  const tableName = "mmtdata_iflow_IflowLogsTracks"; //"iflowlogs"
   const { sampleName, sampleId, legalversion,messageFormat,messageStatus,receiverId, senderId } = req.query;
-  let sqlstatment = "INSERT INTO iflowlogs";
-      sqlstatment= sqlstatment+"(Id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,senderId,receiverId,iflowlogNum,techMessageId,testFixData,legalversion,messageFormat,businessStatus,processStatus,transferdatTime,ahbversion,spitterCaseScenario,autoTestcaseName,commDirection,commMethod,comment,createOn,createBy,modifiedBy,modifiedOn)",
-      sqlstatment= sqlstatment+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  let sqlstatment = `INSERT INTO ${tableName}`;
+      sqlstatment= sqlstatment+"(Id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,senderId,receiverId,iflowlogNum,techMessageId,testFixData,legalversion,messageFormat,businessStatus,processStatus,transferdatTime,ahbversion,spitterCaseScenario,autoTestcaseName,commDirection,commMethod,comment,createdAt,createdBy,modifiedBy,modifiedAt,logTrackData)",
+      sqlstatment= sqlstatment+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  let dataIflow  = ""
+
+  try{
+    let json = await readFile(
+          resolve(
+            "./public/messageGraph/",
+            "graph.json"
+          ),
+          { encoding: "utf8" }
+        );
+    console.log("generate sample: get the original datas");
+    dataIflow = JSON.parse(json);
+
+    dataIflow = await compressInput(json);
+  }catch (err){
+    throw err;
+  }
 
   const id = randomUUID();
   const correlationId = data.correlationId;
@@ -112,14 +133,15 @@ async function insertIlfowLogsRecord(req, res){
   const commDirection = data.commDirection;
   const commMethod = data.commMethod;
   const comment = "";
-  const createOn = new Date().toJSON();
-  const createBy = "";
-  const modifiedBy = "";
-  const modifiedOn = new Date().toJSON();
+  const createdAt = new Date().toJSON();
+  const createBy = "sys";
+  const modifiedBy = "sys";
+  const modifiedAt =new Date().toJSON();
+  const logTrackData = JSON.stringify(dataIflow);
   let para = [id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,
               senderId,receiverId,iflowlogNum,techMessageId,testFixData,legalversion,
               messageFormat,businessStatus,processStatus,transferdatTime,ahbversion,
-              spitterCaseScenario,autoTestcaseName,commDirection,commMethod,comment,createOn,createBy,modifiedBy,modifiedOn];
+              spitterCaseScenario,autoTestcaseName,commDirection,commMethod,comment,createdAt,createBy,modifiedBy,modifiedAt,logTrackData];
   // insert(sqlstatment,para)
   return new Promise(async (resolve, reject) => {
     try{

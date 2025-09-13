@@ -4,8 +4,14 @@
   "description": "Example of calling Node.js methods from HTML",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "start1": "node server.js"
+    "startsimple": "node server.js",
+    "startserver": "node server.js",
+    "startall": "npm run startserver & npm run startService & npm run startApp2 & npm run startApp1",
+    "startService": "cd ./public/oDataService && npm run start",
+    "startApp2": "cd ./public/autotestcases && npm run start",
+    "startApp1": "cd ./public/iflowlogtrackes && npm run start"
+    
+
   },
   "dependencies": {
     "@sap-cloud-sdk/connectivity": "^2.9.0",
@@ -18,6 +24,10 @@
     "nodemon": "^2.0.19",
     "passport": "^0.6.0",
     "sqlite3": "^5.1.7",
-    "odata-v4-server":"0.2.13"
+    "odata-v4-server":"0.2.13",
+    "@ui5/cli": "^3.0.0",
+    "@sap/ux-ui5-tooling": "1",
+    "@sap/ux-specification": "UI5-1.139",
+    "@sap-ux/ui5-middleware-fe-mockserver": "2"
   }
 }

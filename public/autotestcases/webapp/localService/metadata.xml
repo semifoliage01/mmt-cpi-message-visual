@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="IflowLogsTracks" EntityType="CatalogService.IflowLogsTracks">
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="IflowLogsTracks"/>
+                </EntitySet>
+                <EntitySet Name="autoTestCases" EntityType="CatalogService.autoTestCases">
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="autoTestCases"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="IflowLogsTracks">
+                <Key>
+                    <PropertyRef Name="scenarioId"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.String"/>
+                <Property Name="correlationId" Type="Edm.String"/>
+                <Property Name="interchangeId" Type="Edm.String"/>
+                <Property Name="targetsys" Type="Edm.String"/>
+                <Property Name="scenarioId" Type="Edm.String" Nullable="false"/>
+                <Property Name="scenarioName" Type="Edm.String"/>
+                <Property Name="senderId" Type="Edm.String"/>
+                <Property Name="receiverId" Type="Edm.String"/>
+                <Property Name="iflowlogNum" Type="Edm.String"/>
+                <Property Name="techMessageId" Type="Edm.String"/>
+                <Property Name="testFixData" Type="Edm.String"/>
+                <Property Name="legalversion" Type="Edm.String"/>
+                <Property Name="messageFormat" Type="Edm.String"/>
+                <Property Name="businessStatus" Type="Edm.String"/>
+                <Property Name="processStatus" Type="Edm.String"/>
+                <Property Name="transferdatTime" Type="Edm.String"/>
+                <Property Name="ahbversion" Type="Edm.String"/>
+                <Property Name="spitterCaseScenario" Type="Edm.String"/>
+                <Property Name="autoTestcaseName" Type="Edm.String"/>
+                <Property Name="direction" Type="Edm.String"/>
+                <Property Name="commDirection" Type="Edm.String"/>
+                <Property Name="commMethod" Type="Edm.String"/>
+                <Property Name="comment" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="CatalogService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="CatalogService.IflowLogsTracks"/>
+            </EntityType>
+            <EntityType Name="autoTestCases">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="casename"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="casename" Type="Edm.String" Nullable="false"/>
+                <Property Name="sender" Type="Edm.String"/>
+                <Property Name="receiver" Type="Edm.String"/>
+                <Property Name="exchgmethod" Type="Edm.String"/>
+                <Property Name="privatekey" Type="Edm.String"/>
+                <Property Name="publickey" Type="Edm.String"/>
+                <Property Name="payload" Type="Edm.String"/>
+                <Property Name="senderaddress" Type="Edm.String"/>
+                <Property Name="receiveraddress" Type="Edm.String"/>
+                <Property Name="fileid" Type="Edm.String"/>
+                <Property Name="testenv" Type="Edm.String"/>
+                <Property Name="as2_url" Type="Edm.String"/>
+                <Property Name="http_url" Type="Edm.String"/>
+                <Property Name="targetdata" Type="Edm.String"/>
+                <Property Name="comparestatus" Type="Edm.String"/>
+                <Property Name="sourceinterchangeid" Type="Edm.String"/>
+                <Property Name="targetinterchangeid" Type="Edm.String"/>
+                <Property Name="encryptandsign" Type="Edm.String"/>
+                <Property Name="processsequence" Type="Edm.String"/>
+                <Property Name="messagecategory" Type="Edm.String"/>
+                <Property Name="businessstatus" Type="Edm.String"/>
+                <Property Name="processingstatus" Type="Edm.String"/>
+                <Property Name="technicalmessageid" Type="Edm.String"/>
+                <Property Name="direction" Type="Edm.String"/>
+                <Property Name="splitdirection" Type="Edm.String"/>
+                <Property Name="techmsgversion" Type="Edm.String"/>
+                <Property Name="numberoftransactions" Type="Edm.String"/>
+                <Property Name="sourcesys" Type="Edm.String"/>
+                <Property Name="oldinterchangeid" Type="Edm.String"/>
+                <Property Name="newinterchangeid" Type="Edm.String"/>
+                <Property Name="differences" Type="Edm.String"/>
+                <Property Name="comments" Type="Edm.String"/>
+                <Property Name="commentsat" Type="Edm.String"/>
+                <Property Name="webapireferenceId" Type="Edm.String"/>
+                <Property Name="same" Type="Edm.String"/>
+                <Property Name="predecessorTestcase" Type="Edm.String"/>
+                <Property Name="successorTestcase" Type="Edm.String"/>
+                <Property Name="splitScenarioName" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="CatalogService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="CatalogService.autoTestCases"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.IflowLogsTracks"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="CatalogService.IflowLogsTracks"/>
+            </Action>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.autoTestCases"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="CatalogService.autoTestCases"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.IflowLogsTracks"/>
+                <ReturnType Type="CatalogService.IflowLogsTracks"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.autoTestCases"/>
+                <ReturnType Type="CatalogService.autoTestCases"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.IflowLogsTracks"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="CatalogService.IflowLogsTracks"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CatalogService.autoTestCases"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="CatalogService.autoTestCases"/>
+            </Action>
+            <Annotations Target="CatalogService.IflowLogsTracks">
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>scenarioName</PropertyPath>
+                        <PropertyPath>senderId</PropertyPath>
+                        <PropertyPath>receiverId</PropertyPath>
+                        <PropertyPath>correlationId</PropertyPath>
+                        <PropertyPath>commMethod</PropertyPath>
+                        <PropertyPath>commDirection</PropertyPath>
+                        <PropertyPath>businessStatus</PropertyPath>
+                        <PropertyPath>processStatus</PropertyPath>
+                        <PropertyPath>createdAt</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="scenarioName"/>
+                            <PropertyValue Property="Label" String="Scenario Name"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="legalversion"/>
+                            <PropertyValue Property="Label" String="Legal Version"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="senderId"/>
+                            <PropertyValue Property="Label" String="Sender Id"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="receiverId"/>
+                            <PropertyValue Property="Label" String="Receiver Id"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="correlationId"/>
+                            <PropertyValue Property="Label" String="Correlation Id"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="commMethod"/>
+                            <PropertyValue Property="Label" String="Communication Method"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="commDirection"/>
+                            <PropertyValue Property="Label" String="Direction"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="processStatus"/>
+                            <PropertyValue Property="Label" String="Process Status"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="businessStatus"/>
+                            <PropertyValue Property="Label" String="Business Status"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ahbversion"/>
+                            <PropertyValue Property="Label" String="AHB Version"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="HeaderMessage1">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="scenarioName"/>
+                                    <PropertyValue Property="Label" String="Scenario Name"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="scenarioId"/>
+                                    <PropertyValue Property="Label" String="Scenario Id"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.CollectionFacet">
+                            <PropertyValue Property="Label" String="HeaderInfo"/>
+                            <PropertyValue Property="Facets">
+                                <Collection>
+                                    <Record Type="UI.ReferenceFacet">
+                                        <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#HeaderMessage1"/>
+                                    </Record>
+                                </Collection>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="transactions/@UI.PresentationVariant"/>
+                            <PropertyValue Property="Label" String="Transactions"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="RelatedMessages"/>
+                            <PropertyValue Property="Target" AnnotationPath="relatedMessages/@UI.PresentationVariant"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="ReprocessedHistory"/>
+                            <PropertyValue Property="Target" AnnotationPath="marketMessageReprocessHistory/@UI.PresentationVariant"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="RelatedProcesses"/>
+                            <PropertyValue Property="Target" AnnotationPath="relatedProcesses/@UI.PresentationVariant"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService.EntityContainer/IflowLogsTracks">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="CatalogService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="CatalogService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="CatalogService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/ID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/correlationId">
+                <Annotation Term="Common.Label" String="Correlation Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/scenarioId">
+                <Annotation Term="Common.Label" String="Scenario Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/senderId">
+                <Annotation Term="Common.Label" String="Sender Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/receiverId">
+                <Annotation Term="Common.Label" String="Receiver Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/legalversion">
+                <Annotation Term="Common.Label" String="Legal Version"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.IflowLogsTracks/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases">
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>casename</PropertyPath>
+                        <PropertyPath>sender</PropertyPath>
+                        <PropertyPath>receiver</PropertyPath>
+                        <PropertyPath>oldinterchangeid</PropertyPath>
+                        <PropertyPath>exchgmethod</PropertyPath>
+                        <PropertyPath>direction</PropertyPath>
+                        <PropertyPath>createdAt</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="casename"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService.EntityContainer/autoTestCases">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="CatalogService.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="CatalogService.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="CatalogService.draftPrepare"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/ID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/casename">
+                <Annotation Term="Common.Label" String="Case Name"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/sender">
+                <Annotation Term="Common.Label" String="sender"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/receiver">
+                <Annotation Term="Common.Label" String="receiver"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/exchgmethod">
+                <Annotation Term="Common.Label" String="Communication Method"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/payload">
+                <Annotation Term="Common.Label" String="Payload"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/senderaddress">
+                <Annotation Term="Common.Label" String="Sender Address"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/receiveraddress">
+                <Annotation Term="Common.Label" String="Receiver Address"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/testenv">
+                <Annotation Term="Common.Label" String="Target System"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/as2_url">
+                <Annotation Term="Common.Label" String="AS2 URL"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/http_url">
+                <Annotation Term="Common.Label" String="HTTP"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/messagecategory">
+                <Annotation Term="Common.Label" String="Message Category"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/businessstatus">
+                <Annotation Term="Common.Label" String="businessstatus"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/processingstatus">
+                <Annotation Term="Common.Label" String="Processing Status"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/technicalmessageid">
+                <Annotation Term="Common.Label" String="Technical Message Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/direction">
+                <Annotation Term="Common.Label" String="Direction"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/splitdirection">
+                <Annotation Term="Common.Label" String="Split Direction"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/techmsgversion">
+                <Annotation Term="Common.Label" String="Technical Message Version"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/webapireferenceId">
+                <Annotation Term="Common.Label" String="Web API Reference Id"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/predecessorTestcase">
+                <Annotation Term="Common.Label" String="Predecessor Testcase"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/successorTestcase">
+                <Annotation Term="Common.Label" String="Successor Testcase"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/splitScenarioName">
+                <Annotation Term="Common.Label" String="Split Scenario"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.autoTestCases/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="Draft Administrative Data"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="Draft Created On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="Draft Created By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft Created By Me"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="Draft Last Changed On"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="Draft Last Changed By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="Draft In Process By"/>
+            </Annotations>
+            <Annotations Target="CatalogService.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft In Process By Me"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

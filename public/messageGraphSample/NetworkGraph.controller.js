@@ -6,8 +6,9 @@ sap.ui.define(
         "sap/ui/model/json/JSONModel",
         "sap/suite/ui/microchart/ComparisonMicroChart",
         "sap/suite/ui/microchart/ComparisonMicroChartData",
+        "sap/ui/model/odata/v4/ODataModel"
     ],
-    function (Controller, ResourceBundle, formatMessage, JSONModel, ComparisonMicroChart, ComparisonMicroChartData) {
+    function (Controller, ResourceBundle, formatMessage, JSONModel, ComparisonMicroChart, ComparisonMicroChartData,ODataModel) {
         var oPageController = Controller.extend("sap.suite.ui.commons.sample.NetworkGraph.NetworkGraph", {
             _type: "",
             onInit: function () {
@@ -61,13 +62,19 @@ sap.ui.define(
                   ]
                   };
                 // let oModel = new JSONModel(oData);
+                var oModelOData = new ODataModel({
+                    serviceUrl : "http://localhost:8081/odata/v4/catalog/"
+                });
                 let oModel = new JSONModel();
                 oModel.loadData("data.json")
-                this.byId("graph")._toolbar.setModel(oModel);
+                this.byId("graph")._toolbar.setModel(oModelOData);
+                // this.byId("graph")._toolbar.setModel(oModel);
                 let selectCase = new sap.m.Select({
                   items: {
-                  path: "/items",
-                  template: new sap.ui.core.Item({ key: "{key}", text: "{text}" })
+                    // path: "/items",
+                    // template: new sap.ui.core.Item({ key: "{key}", text: "{text}" })
+                  path: "/IflowLogsTracks",
+                  template: new sap.ui.core.Item({ key: "{scenarioId}", text: "{scenarioName}" })
                   }
                   });
                 
@@ -107,9 +114,12 @@ sap.ui.define(
                 this.byId("graph")._toolbar.addContent(new sap.m.Link({ text: "#gantt", href: "/messageGantt/index.html", target: "_blank" }));
                 this.byId("graph")._toolbar.addContent(new sap.m.Link({ text: "#list", href: "/messageList/index.html", target: "_blank" }));
             },
-            onSelectiflowChage: function(oEvent){
+             onSelectiflowChage: function(oEvent){
               let key = oEvent.getParameters().selectedItem.getKey();
               let textValue = oEvent.getParameters().selectedItem.getText();
+
+
+            //   const existData = await dataOperation.queryIflowLogByScenarioName(tableName,sampleId,res )
               console.log("key and text: ", key + textValue)
 
               let path = "sap/suite/ui/commons/sample/NetworkGraph/iflows/" + key + ".json";

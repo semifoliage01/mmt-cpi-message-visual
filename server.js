@@ -12,7 +12,7 @@ const multer = require('multer');
 const { resolve } = require('path'); 
 const { randomUUID } = require("node:crypto");
 const app = express();
-const oData = require('sqlite-odata-cds');
+// const oData = require('sqlite-odata-cds');
 const port = 3009;
 
 // Configure multer for handling multipart/form-data
@@ -98,12 +98,14 @@ app.get('/api/getData', async (req, res) => {
 // Example POST endpoint
 app.get('/api/moveData', async (req, res) => {
     try{
-    const data = req.body;
+    const data = req.query;
+    const {sampleId,sampleName} = data;
+    const tableName = "mmtdata_iflow_IflowLogsTracks"; //"iflowlogs"
     //query data exist or not 
-    const existData = await queryIflowLogByScenarioName("iflowlogs",sampleName,res )
+    const existData = await queryIflowLogByScenarioName(tableName,sampleId,res )
     
     if(existData.length >0){
-        res.status(201).json({ error: 'logs has been created' });
+        res.status(201).json({ error: `${sampleName} logs has been saved already.` });
         return;
     }
     //insert logInformation to database
@@ -213,8 +215,10 @@ app.get('/api/test', async (req, res) => {
         let sqlstatment = "INSERT INTO iflowlogs";
         sqlstatment= sqlstatment+"(Id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,iflowlogNum,techMessageId,testFixData,legalversion,messageFormat,transferdatTime,ahbversion,createOn,createBy,modifiedBy,modifiedOn)",
         sqlstatment= sqlstatment+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        const id = UU;
+        const id = randomUUID();
         // const datas = await queryDataAll("iflowlogs");
+        const datas = await queryDataAll("mmtdata_iflow_CatalogService_IflowLogsTracks");
+        
 
         // const datas = await queryIflowLogByScenarioName("iflowlogs", "testa" );
         // await insertData()

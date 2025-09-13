@@ -9,6 +9,15 @@ Insert the purpose of this project and some interesting infos here
 
 This project has been generated with 💙 and [Easy-UI5](https://github.com/SAP/generator-easy-ui5)
 
+## Dependency
+npm i -g @sap/cds-dk
+cds
+
+mmt-cpi-message-visual/public/oDataService 
+npm install
+
+
+
 ## Others
 
 `https://sap.github.io/fundamental-styles/?path=/docs/sap-fiori-ai-components-busy-indicator--docs`
