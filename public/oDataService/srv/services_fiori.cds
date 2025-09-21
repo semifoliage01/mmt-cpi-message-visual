@@ -605,7 +605,13 @@ annotate CatalogService.caseExecution with @(UI: {
         {Value: businessStatus, },
         {Value: processingstatus, },
         {Value: sender, },
-        {Value: receiver, }
+        {Value: receiver, },
+        {
+            $Type             : 'UI.DataFieldForAction',
+            Label             : '{i18n>fetchMsgResult}',
+            Action            : 'CatalogService.fetchMsgResult',
+            InvocationGrouping: #ChangeSet
+        }
     ]
 
 });

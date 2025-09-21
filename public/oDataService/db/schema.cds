@@ -110,4 +110,6 @@ entity caseExecution : cuid, managed {
         comment          : String;
         sourceType       : String;
         payload          : LargeString;
+        aperakPayload    : LargeString;
+        contrlPayload    : LargeString;
 }

@@ -5,6 +5,15 @@ service CatalogService {
     
     entity caseExecution as projection on iflow.caseExecution{
         *
+    }
+    actions {
+        @cds.odata.bindingparameter.name: '_it'
+        action fetchMsgResult() returns caseExecution;
+        @cds.odata.bindingparameter.name: 'caseExecution'
+        @Core.OperationAvailable : _it.IsActiveEntity
+        action deleteExecutions() returns caseExecution;
+        @cds.odata.bindingparameter.name: '_it'
+        action showIflowLogs() returns caseExecution;
     };
     
     entity targetSysConfig as projection on iflow.targetSysConfig;

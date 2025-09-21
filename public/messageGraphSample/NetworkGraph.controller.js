@@ -63,18 +63,18 @@ sap.ui.define(
                   };
                 // let oModel = new JSONModel(oData);
                 var oModelOData = new ODataModel({
-                    serviceUrl : "http://localhost:8081/odata/v4/catalog/"
+                    serviceUrl : "http://localhost:8081/odata/v4/catalog/IflowLogsTracks/"
                 });
                 let oModel = new JSONModel();
                 oModel.loadData("data.json")
-                this.byId("graph")._toolbar.setModel(oModelOData);
-                // this.byId("graph")._toolbar.setModel(oModel);
+                // this.byId("graph")._toolbar.setModel(oModelOData);
+                this.byId("graph")._toolbar.setModel(oModel);
                 let selectCase = new sap.m.Select({
                   items: {
-                    // path: "/items",
-                    // template: new sap.ui.core.Item({ key: "{key}", text: "{text}" })
-                  path: "/IflowLogsTracks",
-                  template: new sap.ui.core.Item({ key: "{scenarioId}", text: "{scenarioName}" })
+                    path: "/items",
+                    template: new sap.ui.core.Item({ key: "{key}", text: "{text}" })
+                //   path: "/value",
+                //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                   }
                   });
                 

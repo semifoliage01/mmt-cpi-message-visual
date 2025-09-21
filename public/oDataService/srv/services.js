@@ -3,9 +3,20 @@
 let axios = require("axios");
 const { randomUUID } = require('crypto');
 const cds = require('@sap/cds')
+const cors = require("cors");
+const hana = require('@sap/hana-client');
+const { join } = require("path");
+const {queryE2EMsgPayload} = require("./utils/E2EMsgProcessing")
 class CatalogService extends cds.ApplicationService { init() {
   const { AutoTestcase } = cds.entities('CatalogService');
   const {autoTestCases} = cds.entities("CatalogService")
+  cds.on("bootstrap", app => app.use(cors()));
+
+  this.after("*", async (each, req) => {
+    if (req.res) {
+        req.res.set("Access-Control-Allow-Origin", "*");
+    }
+});
 
 //   this.on('DELETE', autoTestCases, async (res, req) =>{
 //     const db = await cds.connect.to('db');
@@ -252,7 +263,7 @@ class CatalogService extends cds.ApplicationService { init() {
                     message: "error",
                     target : 'CatalogService.autoTestCases'});
         }
-        let interchangeid = response.data.result;
+        let interchangeId = response.data.result;
 
 
         console.log("req");
@@ -284,7 +295,24 @@ class CatalogService extends cds.ApplicationService { init() {
                         message: error.message,
                         target : 'CatalogService.autoTestCases'});
                 });
-        const responseCPIData = responseCPI.data.d.results;
+
+        let correlationId = "";
+        if(responseCPI === undefined || responseCPI.data ===null || responseCPI.data.result === null){
+            if (interchangeId != null){
+                correlationId = "";
+
+            }else{
+                req.reject({
+                    code: 200,
+                    message: interchangeId != null ? interchangeId : response.data.message,
+                    target : 'CatalogService.autoTestCases'});
+            }
+            
+        }else{
+            const responseCPIData = responseCPI.data.d.results;
+            correlationId = responseCPIData[0].CorrelationId;
+
+        }
 
 
         let executionResult = [];
@@ -293,7 +321,7 @@ class CatalogService extends cds.ApplicationService { init() {
             "autoTestcaseId" : tesecase[0].ID,
             "interchangeid" : interchangeId,
             "sentStatus": "ee",
-            "correlationId": responseCPIData[0].CorrelationId,
+            "correlationId": correlationId,
             "businessStatus": "",
             "processingstatus": "",
             "sender":tesecase[0].sender,
@@ -391,13 +419,28 @@ class CatalogService extends cds.ApplicationService { init() {
                     statusText: error.response?.statusText,
                     data: error.response?.data
                 });
-                req.error({
-                    code: error.response?.status,
-                    message: error.message,
-                    target : 'CatalogService.autoTestCases'});
+                // req.error({
+                //     code: error.response?.status,
+                //     message: error.message,
+                //     target : 'CatalogService.autoTestCases'});
             });
-    const responseCPIData = responseCPI.data.d.results;
+    let correlationId = "";
+    if(responseCPI === undefined || responseCPI.data ===null || responseCPI.data.result === null){
+        if (interchangeId != null){
+            correlationId = "";
 
+        }else{
+            req.reject({
+                code: 200,
+                message: interchangeId != null ? interchangeId : response.data.message,
+                target : 'CatalogService.autoTestCases'});
+        }
+        
+    }else{
+        const responseCPIData = responseCPI.data.d.results;
+        correlationId = responseCPIData[0].CorrelationId;
+
+    }
 
     let executionResult = [];
     let executionItem = {
@@ -405,7 +448,7 @@ class CatalogService extends cds.ApplicationService { init() {
         "autoTestcaseId" : tesecase[0].ID,
         "interchangeid" : interchangeId,
         "sentStatus": "ee",
-        "correlationId": responseCPIData[0].CorrelationId,
+        "correlationId": correlationId,
         "businessStatus": "",
         "processingstatus": "",
         "sender":tesecase[0].sender,
@@ -484,7 +527,8 @@ class CatalogService extends cds.ApplicationService { init() {
             "as2url": item.as2url,
             "as2user": item.as2user,
             "as2password": item.as2password,
-            "subdomain": item.subdomain
+            "subdomain": item.subdomain,
+            "synchedToAutoTest": 'toBeSynchToAutoTestCase'
         }
         envConfigs.push(envConfig);
     }
@@ -574,12 +618,29 @@ class CatalogService extends cds.ApplicationService { init() {
                     statusText: error.response?.statusText,
                     data: error.response?.data
                 });
-                req.error({
-                    code: error.response?.status,
-                    message: error.message,
-                    target : 'CatalogService.autoTestCases'});
+                // req.error({
+                //     code: error.response?.status,
+                //     message: error.message,
+                //     target : 'CatalogService.autoTestCases'});
             });
-    const responseCPIData = responseCPI.data.d.results;
+    
+    let correlationId = "";
+    if(responseCPI === undefined || responseCPI.data ===null || responseCPI.data.result === null){
+        if (interchangeId != null){
+            correlationId = "";
+
+        }else{
+            req.reject({
+                code: 200,
+                message: interchangeId != null ? interchangeId : response.data.message,
+                target : 'CatalogService.autoTestCases'});
+        }
+        
+    }else{
+        const responseCPIData = responseCPI.data.d.results;
+        correlationId = responseCPIData[0].CorrelationId;
+
+    }
 
 
     let executionResult = [];
@@ -588,7 +649,7 @@ class CatalogService extends cds.ApplicationService { init() {
         "autoTestcaseId" : tesecase[0].ID,
         "interchangeid" : interchangeId,
         "sentStatus": "ee",
-        "correlationId": responseCPIData[0].CorrelationId,
+        "correlationId": correlationId,
         "businessStatus": "",
         "processingstatus": "",
         "sender":tesecase[0].sender,
@@ -603,6 +664,53 @@ class CatalogService extends cds.ApplicationService { init() {
     await db.create(caseExecution).entries(executionResult);
 
     req.notify(JSON.stringify(response.data));
+  }),
+
+  this.on ('fetchMsgResult', async req => {
+    console.log(req)
+    const db = await cds.connect.to('db');
+    const {autoTestCases,targetSysConfig,caseExecution} = db.model.entities("CatalogService")
+    let caseExecutionItems=[]; 
+    let executionId = req.params[1];
+    caseExecutionItems.push(executionId);
+    const whereCondition =  { ID: { in: caseExecutionItems } } 
+    const tesecaseExceution = await db.run(SELECT.from(caseExecution).where(whereCondition))
+    
+
+    let targetEnv=[]; 
+    let targetId = tesecaseExceution[0].testenv; //'StageDev'; //tesecaseExceution[0].testenv;
+    targetEnv.push(targetId);
+    const whereCondition2 =  { configName: { in: targetEnv } } 
+    const envList = await db.run(SELECT.from(targetSysConfig).where(whereCondition2))
+    if (envList[0].dbUrl === null){
+        req.reject(`DB information is not configured for the env : ${targetId}. `)
+    }
+    const regex = /\/\/(.*?):443/;
+    const dbUrl = envList[0].dbUrl.match(regex);
+    const connectionParams = {
+        host: dbUrl[1],
+        port: 443, // 默认端口
+        user: envList[0].dbUser,
+        password: envList[0].dbPassword,
+        useTLS: false // 如果连接需要 TLS，设置为 true
+    };
+    let connection;
+    let sqlString = envList[0].dbschemaName + ".COM_SAP_CD_MACO_E2EM_MESSAGE_E2EMESSAGES";
+    let correlationId = tesecaseExceution[0].correlationId;
+    let interchangeId = tesecaseExceution[0].interchangeid;
+
+    let result = await queryE2EMsgPayload(envList,dbUrl,correlationId,interchangeId)
+    if(result.originalMessage.length<1){
+        req.reject(`E2EM Message inforation is not fetched for the message : ${interchangeId} in the env ${targetId} `)
+    }
+    tesecaseExceution[0].businessStatus = result.originalMessage[0].BUSINESSSTATUS;
+    tesecaseExceution[0].processingstatus = result.originalMessage[0].PROCESSINGSTATUS;
+    tesecaseExceution[0].aperakPayload = result.APERAKPayload;
+    tesecaseExceution[0].contrlPayload = result.ContrlPayload;
+    tesecaseExceution[0].sentStatus = "Success";
+    tesecaseExceution[0].modifiedAt =  new Date().toISOString();
+    await db.update(caseExecution).with(tesecaseExceution[0]).where({ID: tesecaseExceution[0].ID})
+    req.notify(`Execution ${executionId} is updated. `);
   })
 
 

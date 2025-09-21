@@ -9,7 +9,8 @@
     "startall": "npm run startserver & npm run startService & npm run startApp2 & npm run startApp1",
     "startService": "cd ./public/oDataService && npm run start",
     "startApp2": "cd ./public/autotestcases && npm run start",
-    "startApp1": "cd ./public/iflowlogtrackes && npm run start"
+    "startApp1": "cd ./public/iflowlogtrackes && npm run start",
+    "start" : "npm run startserver & npm run startService & npm run startApp2"
     
 
   },
