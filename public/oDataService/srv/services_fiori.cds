@@ -611,6 +611,12 @@ annotate CatalogService.caseExecution with @(UI: {
             Label             : '{i18n>fetchMsgResult}',
             Action            : 'CatalogService.fetchMsgResult',
             InvocationGrouping: #ChangeSet
+        },
+{
+            $Type             : 'UI.DataFieldForAction',
+            Label             : '{i18n>openCPILogPage}',
+            Action            : 'CatalogService.openCPILogPage',
+            InvocationGrouping: #ChangeSet
         }
     ]
 

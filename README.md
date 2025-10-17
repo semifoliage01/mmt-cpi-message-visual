@@ -17,6 +17,20 @@ mmt-cpi-message-visual/public/oDataService
 npm install
 
 
+## Available Scripts
+
+The following scripts are available in the `package.json`:
+
+```json
+{
+  "scripts": {
+    "start" : "npm run startserver & npm run startService & npm run startApp2",
+    "build": "npm run build",
+    "test": "npm test"
+  }
+}
+
+
 
 ## Others
 
@@ -30,3 +44,7 @@ npm install
     </ol>
 </li>
 ```
+
+
+![Alt text](pic/arch.png)
+

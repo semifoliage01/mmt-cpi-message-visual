@@ -13,6 +13,8 @@ service CatalogService {
         @Core.OperationAvailable : _it.IsActiveEntity
         action deleteExecutions() returns caseExecution;
         @cds.odata.bindingparameter.name: '_it'
+        action openCPILogPage() returns caseExecution;
+        @cds.odata.bindingparameter.name: '_it'
         action showIflowLogs() returns caseExecution;
     };
     

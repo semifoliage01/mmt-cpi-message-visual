@@ -18,13 +18,45 @@ class CatalogService extends cds.ApplicationService { init() {
     }
 });
 
-//   this.on('DELETE', autoTestCases, async (res, req) =>{
-//     const db = await cds.connect.to('db');
-//     const {autoTestCases, caseExecution} = db.model.entities("CatalogService");
-//     const testcase = await db.run(SELECT.from(autoTestCases).where({'ID':res.data.ID}))//.where(whereCondition))
-//     const caseExecutionLog = await db.run(SELECT.from(caseExecution).where({'autoTestcaseId':res.data.ID}))//.where(whereCondition))
-//     req.interchange = testcase[0].casename;
-//   })
+  this.after('CREATE', autoTestCases, async (each, req) =>{
+    req.on('succeeded', async (req) => {
+        const db = await cds.connect.to('db');
+        const {autoTestCases, caseExecution} = db.model.entities("CatalogService");
+        let executionResult = [];
+        let executionItem = {
+            "ID" : randomUUID(),
+            "autoTestcaseId" : req.ID,
+            "interchangeid" : "Initial",
+            "sentStatus": "ee",
+            "correlationId": "",
+            "businessStatus": "",
+            "processingstatus": "",
+            "sender":req.sender,
+            "receiver": req.receiver,
+            "testenv": req.testenv,
+            "comment": req.comments,
+            "payload": req.payload,
+            "sourceType": "InitializeTestCase"
+        }
+        executionResult.push(executionItem);
+
+        await db.create(caseExecution).entries(executionResult);
+        console.log("testcase initialize created");
+    })
+    
+  })
+
+  this.after('DELETE', autoTestCases, async (each, req) =>{
+    var deletedData = req.params[0].ID;
+    process.deletedId = deletedData;
+    req.on('commit', async (deletedData) => {
+        const db = await cds.connect.to('db');
+        const {autoTestCases, caseExecution} = db.model.entities("CatalogService");
+        const caseExecutionLog = await db.run(SELECT.from(caseExecution).where({'autoTestcaseId':process.deletedId}))
+        await db.delete(caseExecution).where({'autoTestcaseId' : process.deletedId});// to be updated
+        console.log("delete testexecutions");
+    });
+  })
 
 //   this.after('DELETE', autoTestCases, async (res, req) =>{
 //     const db = await cds.connect.to('db');
@@ -375,15 +407,16 @@ class CatalogService extends cds.ApplicationService { init() {
             //     console.log(response.config);
             }).catch(error => {
                 console.error('Axios request failed:', {
-                    message: error.message,
+                    message: error.code,
                     status: error.response?.status,
                     statusText: error.response?.statusText,
                     data: error.response?.data
                 });
-                req.error({
-                    code: error.response?.status,
+                req.reject({
+                    code: error.code,
                     message: error.message,
                     target : 'CatalogService.autoTestCases'});
+                
             });
     console.log("req");
 
@@ -711,9 +744,70 @@ class CatalogService extends cds.ApplicationService { init() {
     tesecaseExceution[0].modifiedAt =  new Date().toISOString();
     await db.update(caseExecution).with(tesecaseExceution[0]).where({ID: tesecaseExceution[0].ID})
     req.notify(`Execution ${executionId} is updated. `);
-  })
+  }),
 
+  this.on('openCPILogPage', async (req) => {
+        console.log("Request received:", req);
 
+        const caseExecutionId = req.params[1];
+        const db = await cds.connect.to('db');
+        const { targetSysConfig, caseExecution } = db.model.entities("CatalogService");
+
+        // Fetch case execution details
+        const caseExecutionList = await db.run(
+            SELECT.from(caseExecution).where({ ID: caseExecutionId })
+        );
+
+        if (!caseExecutionList || caseExecutionList.length === 0) {
+            req.reject(`No case execution found for ID: ${caseExecutionId}`);
+            return;
+        }
+
+        const { interchangeid: interchangeId, testenv } = caseExecutionList[0];
+        if (!interchangeId) {
+            req.reject(`InterchangeId is not found for the execution ID: ${caseExecutionId}`);
+            return;
+        }
+
+        // Fetch environment configuration
+        const envList = await db.run(
+            SELECT.from(targetSysConfig).where({ configName: testenv })
+        );
+
+        if (!envList || envList.length === 0 || !envList[0].url) {
+            req.reject(`CPI URL is not configured for the environment: ${testenv}`);
+            return;
+        }
+
+        let cpiUrl = envList[0].url;
+        if (!cpiUrl.endsWith("/")) {
+            cpiUrl += "/";
+        }
+
+        // Extract base URL using regex
+        const regex = /^(.*?)(?=\/api\/v1\/)/;
+        const match = cpiUrl.match(regex);
+
+        if (!match || !match[0]) {
+            req.reject(`Invalid CPI URL format: ${cpiUrl}`);
+            return;
+        }
+
+        const cpiLogsUrl = `${match[0]}/itspaces/shell/monitoring/Messages/%7B%22identifier%22%3A%22${interchangeId}%22%7D`;
+        console.log(`CPI Logs URL: ${cpiLogsUrl}`);
+
+        try {
+            // Dynamically import the `open` package
+            const open = (await import('open')).default;
+
+            // Open the CPI logs URL in the default browser
+            console.log(`Opening URL: ${cpiLogsUrl}`);
+            await open(cpiLogsUrl);
+        } catch (error) {
+            console.error("Failed to open URL:", error.message);
+            req.reject(`Failed to open URL: ${error.message}`);
+        }
+    });
 
   
 
