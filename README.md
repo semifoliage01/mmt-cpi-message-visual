@@ -2,7 +2,11 @@
 
 
 npm install
+
 npm run start
+
+
+(should launch SplitterAutoTest java project firstly)
 
 # UI5 App Playground
 
