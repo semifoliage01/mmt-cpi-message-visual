@@ -1,5 +1,8 @@
+
+
+
 npm install
-npm start
+npm run start
 
 # UI5 App Playground
 
@@ -10,11 +13,27 @@ Insert the purpose of this project and some interesting infos here
 This project has been generated with 💙 and [Easy-UI5](https://github.com/SAP/generator-easy-ui5)
 
 ## Dependency
+1.
 npm i -g @sap/cds-dk
 cds
 
-mmt-cpi-message-visual/public/oDataService 
+2.
+cd mmt-cpi-message-visual/public/oDataService
+
 npm install
+
+cds deploy
+
+3.
+cd mmt-cpi-message-visual/public/autotestcases
+
+npm install
+
+4.
+cd mmt-cpi-message-visual
+
+npm install
+
 
 
 ## Available Scripts
