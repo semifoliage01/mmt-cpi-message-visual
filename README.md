@@ -1,12 +1,20 @@
 
 
-
+# Start Application
 npm install
 
 npm run start
 
 
 (should launch SplitterAutoTest java project firstly)
+
+
+# Launch the AutoTestcase app after starting 
+http://localhost:3009
+
+![Alt text](pic/startManu.png)
+
+
 
 # UI5 App Playground
 
@@ -68,6 +76,7 @@ The following scripts are available in the `package.json`:
 </li>
 ```
 
+# Application Architecture 
 
 ![Alt text](pic/arch.png)
 
