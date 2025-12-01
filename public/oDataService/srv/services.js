@@ -10,11 +10,47 @@ const {queryE2EMsgPayload} = require("./utils/E2EMsgProcessing")
 class CatalogService extends cds.ApplicationService { init() {
   const { AutoTestcase } = cds.entities('CatalogService');
   const {autoTestCases} = cds.entities("CatalogService")
-  cds.on("bootstrap", app => app.use(cors()));
+//   cds.on("bootstrap", app => app.use(cors()));
+
+  // CORS configuration - also configure here as fallback
+  // This runs when the service is being served
+  cds.on("serving", (srv) => {
+    const app = srv.app || srv;
+    if (app && app.use) {
+      // Handle OPTIONS preflight requests
+      app.use((req, res, next) => {
+        if (req.method === "OPTIONS") {
+          const requestedHeaders = req.headers["access-control-request-headers"];
+          
+          res.setHeader("Access-Control-Allow-Origin", "http://localhost:3009");
+          res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+          res.setHeader("Access-Control-Allow-Credentials", "true");
+          
+          // Echo back requested headers exactly as browser sent them
+          if (requestedHeaders) {
+            res.setHeader("Access-Control-Allow-Headers", requestedHeaders);
+          } else {
+            res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, X-Requested-With");
+          }
+          
+          res.setHeader("Access-Control-Max-Age", "86400");
+          res.status(204).end();
+          return;
+        }
+        
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:3009");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        next();
+      });
+    }
+  });
 
   this.after("*", async (each, req) => {
     if (req.res) {
-        req.res.set("Access-Control-Allow-Origin", "*");
+        req.res.set("Access-Control-Allow-Origin", "http://localhost:3009");
+        req.res.set("Access-Control-Allow-Headers", "Content-Type, content-type, Authorization, authorization, Accept, accept");
+        req.res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+        req.res.set("Access-Control-Allow-Credentials", "true");
     }
 });
 
@@ -508,7 +544,8 @@ class CatalogService extends cds.ApplicationService { init() {
     const whereCondition =  { ID: { in: testcaseIdList } } 
     const testcase = await db.run(SELECT.from(autoTestCases).where(whereCondition))
     testcase[0].casename = newCaseName;
-    testcase[0].synchedToAutoTest = null;
+    testcase[0].synchedToAutoTest = "toBeSynchToAutoTestCase";
+    testcase[0].synchStatus = 3;
     const response = await db.create(autoTestCases).entries(testcase)
     console.log(response)
   }),
@@ -809,6 +846,15 @@ class CatalogService extends cds.ApplicationService { init() {
         }
     });
 
+     this.on ('READ', 'IflowLogsTracks',async (req)=>{
+        const db = await cds.connect.to('db');
+        const { IflowLogsTracks } = db.model.entities("CatalogService");
+
+        // Fetch all fields if no $select is provided
+        const result = await db.run(SELECT.from(IflowLogsTracks));
+        return result;
+    })
+
   
 
   return super.init()
@@ -833,11 +879,7 @@ module.exports = CatalogService
 //    { ID:170, name:'Richard Carpenter' },    
 //  ])
 
-//  srv.on ('READ', 'IflowLogsTracks', ()=>[
-// //    { ID:101, name:'Emily Brontë' },
-// //    { ID:150, name:'Edgar Allen Poe' },
-// //    { ID:170, name:'Richard Carpenter' },
-//  ])
+
     // this.on(ActionsynchTestcaseFromAutoSplitter)
 
     // this.on(CatalogService.ActionsynchTestcaseFromAutoSplitter.name, async (req) => {

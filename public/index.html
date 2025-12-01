@@ -763,16 +763,16 @@
                 }
 
                 // Try to get envId from as2form or webapiform, fallback to old id for compatibility
-                let envId = '';
-                const as2form = document.getElementById('as2form');
-                const webapiform = document.getElementById('webapiform');
-                if (as2form && as2form.style.display !== 'none') {
-                    envId = document.getElementById('envIdAs2').value;
-                } else if (webapiform && webapiform.style.display !== 'none') {
-                    envId = document.getElementById('envIdWebapi').value;
-                } else if (document.getElementById('envId')) {
-                    envId = document.getElementById('envId').value;
-                }
+                let envId = document.getElementById('envId').value;
+                // const as2form = document.getElementById('envId').value;
+                // const webapiform = document.getElementById('webapiform');
+                // if (as2form && as2form.style.display !== 'none') {
+                //     envId = document.getElementById('envIdAs2').value;
+                // } else if (webapiform && webapiform.style.display !== 'none') {
+                //     envId = document.getElementById('envIdWebapi').value;
+                // } else if (document.getElementById('envId')) {
+                //     envId = document.getElementById('envId').value;
+                // }
                 if (!envId) {
                     throw new Error('Please select an Environment');
                 }
