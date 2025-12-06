@@ -63,18 +63,22 @@ sap.ui.define(
                   };
                 
                 let serviceUrl = "http://localhost:4004/odata/v4/catalog/IflowLogsTracks?$select=ID,scenarioName,logTrackData";
+                let serviceEnvUrl = "http://localhost:4004/odata/v4/catalog/targetSysConfig?select=ID,configName";
                 // let oModel = new JSONModel(oData);
                 var oModelOData = new ODataModel({
                     serviceUrl : "http://localhost:4004/odata/v4/catalog/IflowLogsTracks/"
                 });
                 let oModel = new JSONModel();
-                oModel.loadData("data.json")
+                let oModelEnv = new JSONModel();
+                // oModel.loadData("data.json")
                 // this.byId("graph")._toolbar.setModel(oModelOData);
-                this.byId("graph")._toolbar.setModel(ODataModel);
+                this.byId("graph")._toolbar.setModel(oModel);
+                this.byId("secondToolbar").setModel(oModel);
                 let selectCase = new sap.m.Select({
+                    visible :false,
                   items: {
                     path: "/value",
-                    template: new sap.ui.core.Item({ key: "{Id}", text: "{scenarioName}" })
+                    template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                 //   path: "/value",
                 //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                   }
@@ -83,40 +87,105 @@ sap.ui.define(
                 let selectCase1 = new sap.m.Select({
                   items: {
                     path: "/value",
-                    template: new sap.ui.core.Item({ key: "{Id}", text: "{scenarioName}" })
+                    template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                 //   path: "/value",
                 //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                   }
                   });
                 
+                let selectEnv = new sap.m.Select({
+                  items: {
+                    path: "/value",
+                    template: new sap.ui.core.Item({ key: "{configName}", text: "{configName}" })
+                //   path: "/value",
+                //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
+                  }
+                  });
+                
+                selectEnv.setModel(oModelEnv);
                 selectCase.attachChange(this.onSelectiflowChage);
+                selectCase1.attachChange(this.onSelectiflowChage);
 
-                fetch(serviceUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    // body: urlEncodedData,
-                    credentials: 'include'
-                })
-                .then(response => {
-                    result = response.json()
-                })
-                .then(data => {
-                    console.log('Form submission successful:', data);
-                    oModel.setData(data);
-                    // You can add success handling here
-                })
-                .catch(error => {
-                    console.error('Form submission failed:', error);
-                    result = error;
-                    // You can add error handling here
-                });
+                (async () => {
+                    try {
+                        const response = await fetch(serviceUrl, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            credentials: 'include'
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        const data = await response.json(); // Wait for the JSON to be parsed
+                        console.log('Form submission successful:', data);
+                        oModel.setData(data); // Set the data to the model
+                    } catch (error) {
+                        console.error('Form submission failed:', error);
+                    }
+                })();
+
+                (async () => {
+                    try {
+                        const response = await fetch(serviceEnvUrl, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            credentials: 'include'
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        const data = await response.json(); // Wait for the JSON to be parsed
+                        console.log('Form submission successful:', data);
+                        oModelEnv.setData(data); // Set the data to the model
+                    } catch (error) {
+                        console.error('Form submission failed:', error);
+                    }
+                })();
 
                 //add content to sencondToolbar
                 this.byId("secondToolbar").addContent(selectCase1);
 
+                this.byId("secondToolbar").addContent(
+                    new sap.m.Button({
+                        id : "EditSampleButton",
+                        text: "Edit",
+                        press: () => {
+                            controller._type = "instance";
+                            this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph.json"));
+                        },
+                    }),
+                );
+                this.byId("secondToolbar").addContent(selectEnv);
 
+                this.byId("secondToolbar").addContent(
+                    new sap.m.Input({
+                        text :"",
+                        width: "20%",
+                        showClearIcon: true,
+                        placeholder: "CorrelationId",
+                    })
+                );
+
+                this.byId("secondToolbar").addContent(
+                    new sap.m.Button({
+                        id : "FetchLogButton",
+                        text: "Fetch logs",
+                        press: () => {
+                            controller._type = "instance";
+                            this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph.json"));
+                        },
+                    }),
+                );
+
+                // add content to graph toolbar
                 this.byId("graph")._toolbar.addContent(selectCase);
                 //not use contrl
                 // let ctrl = new sap.m.CheckBox({ text: "Show Graph", selected: "{settings>/showGraphMap}" });
@@ -155,18 +224,28 @@ sap.ui.define(
              onSelectiflowChage: function(oEvent){
               let key = oEvent.getParameters().selectedItem.getKey();
               let textValue = oEvent.getParameters().selectedItem.getText();
+              let logTrackData = oEvent.getParameters().selectedItem.getBindingContext().getObject().logTrackData;
+
+              /**
+               * same as 
+               * // Get the selected item
+                let selectedItem = oEvent.getSource().getSelectedItem();
+
+                // Get the data bound to the selected item
+                let selectedData = selectedItem.getBindingContext().getObject();
+               */
 
 
             //   const existData = await dataOperation.queryIflowLogByScenarioName(tableName,sampleId,res )
-              console.log("key and text: ", key + textValue)
+            //   console.log("key and text: ", key + textValue)
 
-              let path = "sap/suite/ui/commons/sample/NetworkGraph/iflows/" + key + ".json";
-              console.log("Graph name and key :  ", textValue + "-----" + path);
+            //   let path = "sap/suite/ui/commons/sample/NetworkGraph/iflows/" + key + ".json";
+            //   console.log("Graph name and key :  ", textValue + "-----" + path);
 
-              let oModel = new JSONModel(sap.ui.require.toUrl(path));
-
+            //   let oModel = new JSONModel(sap.ui.require.toUrl(path));
+              let oModel = new JSONModel(JSON.parse(logTrackData));
               // let oModel = new JSONModel(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/iflows/graph2.json"));
-              let that = this.getParent().getParent().getParent().getParent().getParent().getController();
+              let that = this.getParent().getParent().getParent().getController();
               that.getView().setModel(oModel);
               that.byId("TitleText").setText("Scenario Name : "+ textValue)
               that._oModelSettings = new JSONModel({
@@ -181,7 +260,7 @@ sap.ui.define(
                 oModel.setSizeLimit(1000);
                 oModel.dataLoaded().then(() => {
                     // get corr
-                    let CorrelationId = this.getView().getModel().getProperty("/CorrelationId");
+                    let CorrelationId = this.getSelectedItem().getBindingContext().getObject().correlationId
                     if (CorrelationId) {
                         document.title = `${document.title} ${CorrelationId}`;
                     }

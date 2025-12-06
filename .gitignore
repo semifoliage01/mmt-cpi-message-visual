@@ -16,3 +16,11 @@ MessageProcessingLogs/
 MessageProcessingLogs/.DS_Store
 public/.DS_Store
 public/uimodule/.DS_Store
+
+public/messageGraph/graph.json
+public/messageGraph/graph_cls.json
+public/messageGraphSample/.DS_Store
+public/messageGraphSample/data.json
+mmtdatabase.db-shm
+mmtdatabase.db-wal
+public/messageGraphSample/iflows/*

@@ -50,7 +50,7 @@ service CatalogService {
 
     entity VHCommunicationMethods as projection on comm.common.CommunicationMethods;
     entity VHtargetSysConfig as select from iflow.targetSysConfig{
-        configName
+        key configName
     };
     entity VHProcesssequence  as projection on comm.common.Processsequence;
     entity VHDirection as projection on comm.common.MsgDirection;
