@@ -22,7 +22,7 @@ sap.ui.define(
                     arrowOrientation: "ParentOf",
                     nodeSpacing: 25,
                     mergeEdges: false,
-                    showGraphMap: true,
+                    showGraphMap: false,
                 });
                 oModel.setSizeLimit(1000);
                 oModel.dataLoaded().then(() => {
@@ -41,7 +41,7 @@ sap.ui.define(
                 console.log("onAfterRendering");
 
 
-                var oData = {
+                let oData = {
                   items: [
                   { key: "APERAK_312_1tr_NoSplitter", text: "APERAK 312 1 transaction with Not Splitter" },
                   { key: "APERAK_312_Aggerated_2tr_NoSplitter", text: "APERAK 312 Aggerated 2 transaction with Not Splitter" },
@@ -61,29 +61,67 @@ sap.ui.define(
                   { key: "C", text: "Option C iflow case 1 and 3" }
                   ]
                   };
+                
+                let serviceUrl = "http://localhost:4004/odata/v4/catalog/IflowLogsTracks?$select=ID,scenarioName,logTrackData";
                 // let oModel = new JSONModel(oData);
                 var oModelOData = new ODataModel({
-                    serviceUrl : "http://localhost:8081/odata/v4/catalog/IflowLogsTracks/"
+                    serviceUrl : "http://localhost:4004/odata/v4/catalog/IflowLogsTracks/"
                 });
                 let oModel = new JSONModel();
                 oModel.loadData("data.json")
                 // this.byId("graph")._toolbar.setModel(oModelOData);
-                this.byId("graph")._toolbar.setModel(oModel);
+                this.byId("graph")._toolbar.setModel(ODataModel);
                 let selectCase = new sap.m.Select({
                   items: {
-                    path: "/items",
-                    template: new sap.ui.core.Item({ key: "{key}", text: "{text}" })
+                    path: "/value",
+                    template: new sap.ui.core.Item({ key: "{Id}", text: "{scenarioName}" })
+                //   path: "/value",
+                //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
+                  }
+                  });
+
+                let selectCase1 = new sap.m.Select({
+                  items: {
+                    path: "/value",
+                    template: new sap.ui.core.Item({ key: "{Id}", text: "{scenarioName}" })
                 //   path: "/value",
                 //   template: new sap.ui.core.Item({ key: "{ID}", text: "{scenarioName}" })
                   }
                   });
                 
-                selectCase.attachChange(this.onSelectiflowChage)
+                selectCase.attachChange(this.onSelectiflowChage);
+
+                fetch(serviceUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // body: urlEncodedData,
+                    credentials: 'include'
+                })
+                .then(response => {
+                    result = response.json()
+                })
+                .then(data => {
+                    console.log('Form submission successful:', data);
+                    oModel.setData(data);
+                    // You can add success handling here
+                })
+                .catch(error => {
+                    console.error('Form submission failed:', error);
+                    result = error;
+                    // You can add error handling here
+                });
+
+                //add content to sencondToolbar
+                this.byId("secondToolbar").addContent(selectCase1);
+
 
                 this.byId("graph")._toolbar.addContent(selectCase);
-                let ctrl = new sap.m.CheckBox({ text: "Show Graph", selected: "{settings>/showGraphMap}" });
-                ctrl.setModel(this._oModelSettings, "settings");
-                this.byId("graph")._toolbar.insertContent(ctrl, 0);
+                //not use contrl
+                // let ctrl = new sap.m.CheckBox({ text: "Show Graph", selected: "{settings>/showGraphMap}" });
+                // ctrl.setModel(this._oModelSettings, "settings");
+                // this.byId("graph")._toolbar.insertContent(ctrl, 0);
                 this.byId("graph")._toolbar.addContent(
                     new sap.m.Button({
                         text: "instance",
@@ -138,7 +176,7 @@ sap.ui.define(
                     arrowOrientation: "ParentOf",
                     nodeSpacing: 25,
                     mergeEdges: false,
-                    showGraphMap: true,
+                    showGraphMap: false,
                 });
                 oModel.setSizeLimit(1000);
                 oModel.dataLoaded().then(() => {

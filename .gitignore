@@ -12,3 +12,7 @@ approuter/*/webapp/
 data/
 mockdata/
 MessageProcessingLogs/
+.DS_Store
+MessageProcessingLogs/.DS_Store
+public/.DS_Store
+public/uimodule/.DS_Store

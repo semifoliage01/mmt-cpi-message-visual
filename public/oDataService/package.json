@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^7",
+    "@sap/cds": "^8.9.6",
     "@sap/hana-client": "^2.26.18",
     "cors": "^2.8.5",
     "express": "^4"

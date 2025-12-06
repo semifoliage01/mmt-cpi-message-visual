@@ -97,7 +97,8 @@ async function insertIlfowLogsRecord(req, res){
   let sqlstatment = `INSERT INTO ${tableName}`;
       sqlstatment= sqlstatment+"(Id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,senderId,receiverId,iflowlogNum,techMessageId,testFixData,legalversion,messageFormat,businessStatus,processStatus,transferdatTime,ahbversion,spitterCaseScenario,autoTestcaseName,commDirection,commMethod,comment,createdAt,createdBy,modifiedBy,modifiedAt,logTrackData)",
       sqlstatment= sqlstatment+" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-  let dataIflow  = ""
+  let dataIflow  = "";
+  let dataIflow2 = "";
 
   try{
     let json = await readFile(
@@ -109,7 +110,8 @@ async function insertIlfowLogsRecord(req, res){
         );
     console.log("generate sample: get the original datas");
     dataIflow = JSON.parse(json);
-
+    dataIflow2 = dataIflow;
+    //skip compressino now and to be added in the future
     dataIflow = await compressInput(json);
   }catch (err){
     throw err;
@@ -137,7 +139,7 @@ async function insertIlfowLogsRecord(req, res){
   const createBy = "sys";
   const modifiedBy = "sys";
   const modifiedAt =new Date().toJSON();
-  const logTrackData = JSON.stringify(dataIflow);
+  const logTrackData = JSON.stringify(dataIflow2);
   let para = [id,correlationId,interchangeId,targetsys,scenarioId,scenarioName,
               senderId,receiverId,iflowlogNum,techMessageId,testFixData,legalversion,
               messageFormat,businessStatus,processStatus,transferdatTime,ahbversion,
