@@ -177,7 +177,18 @@ sap.ui.define(
                 this.byId("secondToolbar").addContent(
                     new sap.m.Button({
                         id : "FetchLogButton",
-                        text: "Fetch logs",
+                        text: "Fetch",
+                        press: () => {
+                            controller._type = "instance";
+                            this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph.json"));
+                        },
+                    }),
+                );
+
+                this.byId("secondToolbar").addContent(
+                    new sap.m.Button({
+                        id : "SaveLogButton",
+                        text: "Save",
                         press: () => {
                             controller._type = "instance";
                             this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph.json"));
@@ -194,6 +205,7 @@ sap.ui.define(
                 this.byId("graph")._toolbar.addContent(
                     new sap.m.Button({
                         text: "instance",
+                        visible: false,
                         press: () => {
                             controller._type = "instance";
                             this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph.json"));
@@ -203,6 +215,7 @@ sap.ui.define(
                 this.byId("graph")._toolbar.addContent(
                     new sap.m.Button({
                         text: "class",
+                        visible: false,
                         press: () => {
                             this._type = "class";
                             this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph_cls.json"));
@@ -212,6 +225,7 @@ sap.ui.define(
                 this.byId("graph")._toolbar.addContent(
                     new sap.m.Button({
                         text: "pakage",
+                        visible: false,
                         press: () => {
                             this._type = "package";
                             this.getView().getModel().loadData(sap.ui.require.toUrl("sap/suite/ui/commons/sample/NetworkGraph/graph_pkg.json"));
